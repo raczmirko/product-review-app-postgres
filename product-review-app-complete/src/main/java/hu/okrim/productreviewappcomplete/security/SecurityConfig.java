@@ -28,6 +28,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(authorize -> authorize
                     .requestMatchers(HttpMethod.GET, "/country/all").permitAll()
                     .requestMatchers(HttpMethod.POST, SecurityConstants.REGISTER_PATH).permitAll()
+                    .requestMatchers(HttpMethod.GET, "/security/session-second").permitAll()
                     // Define role-based access control
                     // Reviews can be modified by both users and admins
                     // Security endpoint is required for the frontend to work
