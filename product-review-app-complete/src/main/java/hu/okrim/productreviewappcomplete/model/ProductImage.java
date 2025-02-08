@@ -24,8 +24,7 @@ public class ProductImage {
     @JsonIgnore
     private Product product;
 
-    @Lob
-    @Column(name = "image", columnDefinition = "varbinary(max)")
+    @Column(name = "image", columnDefinition = "bytea")
     private byte[] image;
 
     public ProductImage(Product product, byte[] image){
