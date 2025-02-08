@@ -2,9 +2,8 @@ package hu.okrim.productreviewappcomplete.controller;
 
 import hu.okrim.productreviewappcomplete.dto.UserDTO;
 import hu.okrim.productreviewappcomplete.mapper.UserMapper;
-import hu.okrim.productreviewappcomplete.model.Role;
-import hu.okrim.productreviewappcomplete.model.RoleType;
 import hu.okrim.productreviewappcomplete.service.CountryService;
+import hu.okrim.productreviewappcomplete.service.RoleService;
 import hu.okrim.productreviewappcomplete.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,8 @@ public class UserController {
     UserService userService;
     @Autowired
     CountryService countryService;
+    @Autowired
+    RoleService roleService;
 
     @GetMapping("/{id}")
     public ResponseEntity<String> findById(@PathVariable Long id) {
@@ -30,7 +31,7 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<HttpStatus> createUser(@Valid @RequestBody UserDTO user) {
         user.setIsActive(true);
-        user.setRole(new Role(RoleType.USER));
+        user.setRole(roleService.getUserRole());
         user.setRegistrationDate(ZonedDateTime.now());
         userService.save(UserMapper.mapToUser(user));
         return new ResponseEntity<>(HttpStatus.CREATED);
