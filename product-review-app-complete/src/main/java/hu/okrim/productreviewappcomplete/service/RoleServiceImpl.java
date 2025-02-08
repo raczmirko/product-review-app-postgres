@@ -11,7 +11,7 @@ public class RoleServiceImpl implements RoleService{
     private RoleRepository roleRepository;
 
     @Autowired
-    public void RoleServiceImpl(RoleRepository roleRepository){
+    public RoleServiceImpl(RoleRepository roleRepository){
         this.roleRepository = roleRepository;
     }
 
