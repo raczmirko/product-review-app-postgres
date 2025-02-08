@@ -31,7 +31,7 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "role", nullable = false)
     private Role role;
-    @Column(name = "is_active", nullable = false)
+    @Column(name = "active", nullable = false)
     private Boolean isActive;
 
     public User() {
