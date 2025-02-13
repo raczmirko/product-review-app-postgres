@@ -2,6 +2,7 @@ HELP.md
 product-review-app-complete/target/
 !**/src/main/**/target/
 !**/src/test/**/target/
+.env
 
 ### STS ###
 .apt_generated
