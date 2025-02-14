@@ -5,12 +5,13 @@ services:
     build: .
     container_name: spring_backend
     depends_on:
-      - db
+      db:
+        condition: service_healthy # Ensures PostgreSQL is ready
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/product_review_db
       SPRING_DATASOURCE_USERNAME: review_user
       SPRING_DATASOURCE_PASSWORD: UTWsDpnLCRDPyqbghjSWjfW7K8cU6dMvVW7EgsRS
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
     ports:
       - "8080:8080"
     networks:
@@ -30,6 +31,12 @@ services:
       - backend-network
     volumes:
       - postgres-data:/var/lib/postgresql/data
+    shm_size: 256mb # Increases shared memory for PostgreSQL performance
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "review_user", "-d", "product_review_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 networks:
   backend-network:
