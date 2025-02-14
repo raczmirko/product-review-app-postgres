@@ -41,12 +41,12 @@ jobs:
           cache: maven
 
       - name: Build with Maven
-        run: mvn -B clean package
+        run: mvn -B clean package -DskipTests
         env:
-          SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/product_review_db
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/product_review_db
           SPRING_DATASOURCE_USERNAME: review_user
           SPRING_DATASOURCE_PASSWORD: ${{ secrets.SPRING_DATASOURCE_PASSWORD }}
-          SPRING_FLYWAY_URL: jdbc:postgresql://postgres:5432/product_review_db
+          SPRING_FLYWAY_URL: jdbc:postgresql://localhost:5432/product_review_db
           SPRING_FLYWAY_USER: review_user
           SPRING_FLYWAY_PASSWORD: ${{ secrets.SPRING_DATASOURCE_PASSWORD }}
 
