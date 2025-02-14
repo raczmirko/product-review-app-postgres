@@ -10,6 +10,21 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: product_review_db
+          POSTGRES_USER: review_user
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U review_user -d product_review_db"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -20,6 +35,15 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
+
+      - name: Set up Database Environment Variables
+        run: |
+          echo "SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/product_review_db" >> $GITHUB_ENV
+          echo "SPRING_DATASOURCE_USERNAME=review_user" >> $GITHUB_ENV
+          echo "SPRING_DATASOURCE_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> $GITHUB_ENV
+          echo "SPRING_FLYWAY_URL=jdbc:postgresql://localhost:5432/product_review_db" >> $GITHUB_ENV
+          echo "SPRING_FLYWAY_USER=review_user" >> $GITHUB_ENV
+          echo "SPRING_FLYWAY_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> $GITHUB_ENV
 
       - name: Run Tests
         run: mvn -B test --file pom.xml

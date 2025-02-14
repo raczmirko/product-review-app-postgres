@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  backend:
+    build: .
+    container_name: spring_backend
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy # Ensures PostgreSQL is ready
+    environment:
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+    ports:
+      - "8080:8080"
+    networks:
+      - backend-network
+
+  db:
+    image: postgres:15
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    networks:
+      - backend-network
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    shm_size: 256mb # Increases shared memory for PostgreSQL performance
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "review_user", "-d", "product_review_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  backend-network:
+
+volumes:
+  postgres-data:
