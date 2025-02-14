@@ -8,9 +8,9 @@ services:
       db:
         condition: service_healthy # Ensures PostgreSQL is ready
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/product_review_db
-      SPRING_DATASOURCE_USERNAME: review_user
-      SPRING_DATASOURCE_PASSWORD: UTWsDpnLCRDPyqbghjSWjfW7K8cU6dMvVW7EgsRS
+      SPRING_DATASOURCE_URL: ${DB_URL}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
     ports:
       - "8080:8080"
@@ -22,9 +22,9 @@ services:
     container_name: postgres_db
     restart: always
     environment:
-      POSTGRES_DB: product_review_db
-      POSTGRES_USER: review_user
-      POSTGRES_PASSWORD: UTWsDpnLCRDPyqbghjSWjfW7K8cU6dMvVW7EgsRS
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "5432:5432"
     networks:
