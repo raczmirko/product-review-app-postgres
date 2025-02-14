@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . .
 
 # Build the application
-RUN mvn clean package -DskipTests
+RUN mvn clean package -DskipTests=true
 
 # Use a lightweight JDK image for running the application
 FROM eclipse-temurin:21-jdk
