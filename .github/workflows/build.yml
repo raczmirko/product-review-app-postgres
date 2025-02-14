@@ -16,15 +16,15 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgres:latest
+        image: postgres:15
         env:
-          POSTGRES_USER: test
-          POSTGRES_PASSWORD: test
-          POSTGRES_DB: testdb
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
         ports:
           - 5432:5432
         options: >-
-          --health-cmd "pg_isready -U test"
+          --health-cmd "pg_isready -U review_user -d product_review_db"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
@@ -33,6 +33,19 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      - name: Load Environment Variables from .env
+        run: |
+          set -o allexport
+          source .env
+          set +o allexport
+        shell: bash
+
+      - name: Debug Environment Variables
+        run: |
+          echo "Loaded DB URL: $DB_URL"
+          echo "Loaded DB User: $DB_USER"
+        shell: bash
+
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
@@ -40,21 +53,15 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Wait for PostgreSQL to be ready
-        run: sleep 5
-
-      - name: Debug Environment Variables
-        run: echo "Database URL is $SPRING_DATASOURCE_URL"
-
       - name: Build with Maven
-        run: mvn -B package --file pom.xml
+        run: mvn -B clean package
         env:
-          SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/testdb
-          SPRING_DATASOURCE_USERNAME: test
-          SPRING_DATASOURCE_PASSWORD: test
-          SPRING_FLYWAY_URL: jdbc:postgresql://postgres:5432/testdb
-          SPRING_FLYWAY_USER: test
-          SPRING_FLYWAY_PASSWORD: test
+          SPRING_DATASOURCE_URL: ${{ env.DB_URL }}
+          SPRING_DATASOURCE_USERNAME: ${{ env.DB_USER }}
+          SPRING_DATASOURCE_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          SPRING_FLYWAY_URL: ${{ env.DB_URL }}
+          SPRING_FLYWAY_USER: ${{ env.DB_USER }}
+          SPRING_FLYWAY_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
 
       - name: Update dependency graph
         uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
