@@ -1,14 +1,25 @@
+name: Release Build
+
 on:
   push:
-    branches:
-      - master  # Trigger when pushing to main
+    tags:
+      - 'v*'  # Triggers when a new tag like v1.2.3 is pushed
+
+permissions:
+  contents: write
 
 jobs:
-  tag_and_release:
+  build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+
+      - name: Set up Git User
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
@@ -16,22 +27,28 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Build Project
-        run: mvn -B clean package -DskipTests
+      - name: Determine Project Version
+        id: get_version
+        run: echo "VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
 
-      - name: Create Git Tag
+      - name: Build Project
+        run: ./mvnw clean package
+
+      - name: Create and Push Git Tag
         run: |
-          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-          git tag "v$VERSION"
-          git push origin "v$VERSION"
+          git tag v${{ env.VERSION }}
+          git push origin v${{ env.VERSION }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create GitHub Release
+        id: create_release
         uses: softprops/action-gh-release@c95fe1489396fe8a9eb87c0abf8aa5b2ef267fda
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag_name: v${{ github.ref_name }}
-          name: Release v${{ github.ref_name }}
-          body: "Automated release of version v${{ github.ref_name }}"
+          tag_name: v${{ env.VERSION }}
+          name: Release v${{ env.VERSION }}
+          body: "Automated release of version v${{ env.VERSION }}"
           draft: false
           prerelease: false
           files: target/*.jar
