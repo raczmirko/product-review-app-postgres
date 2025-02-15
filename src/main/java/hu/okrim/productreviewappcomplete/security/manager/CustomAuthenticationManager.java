@@ -2,6 +2,7 @@ package hu.okrim.productreviewappcomplete.security.manager;
 
 import hu.okrim.productreviewappcomplete.model.User;
 import hu.okrim.productreviewappcomplete.service.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,13 +12,11 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import lombok.AllArgsConstructor;
-
 import java.util.Collections;
 
 @Component
 @AllArgsConstructor
-public class CustomAuthenticationManager implements AuthenticationManager {    
+public class CustomAuthenticationManager implements AuthenticationManager {
 
     private UserService userServiceImpl;
     private BCryptPasswordEncoder bCryptPasswordEncoder;

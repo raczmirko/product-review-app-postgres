@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.Instant;
 import java.time.ZonedDateTime;
 
 @Setter
@@ -17,9 +16,9 @@ import java.time.ZonedDateTime;
 @AllArgsConstructor
 public class UserDTO {
     private Long id;
-    @NotBlank(message =  "Username cannot be blank.")
+    @NotBlank(message = "Username cannot be blank.")
     private String username;
-    @NotBlank(message =  "Password cannot be blank.")
+    @NotBlank(message = "Password cannot be blank.")
     private String password;
     private Country country;
     private ZonedDateTime registrationDate;

@@ -9,9 +9,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ReviewBodyServiceImpl implements ReviewBodyService{
+public class ReviewBodyServiceImpl implements ReviewBodyService {
     @Autowired
     ReviewBodyRepository reviewBodyRepository;
+
     @Override
     public void save(ReviewBody reviewBody) {
         reviewBodyRepository.save(reviewBody);

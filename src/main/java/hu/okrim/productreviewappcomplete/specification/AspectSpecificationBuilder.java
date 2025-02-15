@@ -1,6 +1,5 @@
 package hu.okrim.productreviewappcomplete.specification;
 
-import hu.okrim.productreviewappcomplete.model.Brand;
 import hu.okrim.productreviewappcomplete.model.Category;
 import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
@@ -8,7 +7,7 @@ import org.springframework.data.jpa.domain.Specification;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AspectSpecificationBuilder <Aspect>{
+public class AspectSpecificationBuilder<Aspect> {
     private final List<Specification<Aspect>> specifications;
 
     public AspectSpecificationBuilder() {
@@ -20,8 +19,7 @@ public class AspectSpecificationBuilder <Aspect>{
             int numericId = Integer.parseInt(id);
             specifications.add((root, query, builder) -> builder.equal(root.get("id"), numericId));
             return this;
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             return this;
         }
     }

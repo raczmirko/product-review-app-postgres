@@ -1,14 +1,14 @@
 package hu.okrim.productreviewappcomplete.security.filter;
 
-import java.io.IOException;
-
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import hu.okrim.productreviewappcomplete.exception.EntityNotFoundException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.filter.OncePerRequestFilter;
-import com.auth0.jwt.exceptions.JWTVerificationException;
+
+import java.io.IOException;
 
 public class ExceptionHandlerFilter extends OncePerRequestFilter {
 
@@ -28,6 +28,6 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().write("BAD REQUEST");
             response.getWriter().flush();
-        }  
+        }
     }
 }

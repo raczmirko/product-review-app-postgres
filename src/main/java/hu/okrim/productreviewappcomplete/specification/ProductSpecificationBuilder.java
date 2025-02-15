@@ -20,8 +20,7 @@ public class ProductSpecificationBuilder<Product> {
             int numericId = Integer.parseInt(id);
             specifications.add((root, query, builder) -> builder.equal(root.get("id"), numericId));
             return this;
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             return this;
         }
     }

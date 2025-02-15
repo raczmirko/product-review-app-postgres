@@ -1,12 +1,8 @@
 package hu.okrim.productreviewappcomplete.security.filter;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
-
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hu.okrim.productreviewappcomplete.dto.UserDTO;
 import hu.okrim.productreviewappcomplete.security.SecurityConstants;
 import hu.okrim.productreviewappcomplete.security.manager.CustomAuthenticationManager;
@@ -14,20 +10,16 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import lombok.AllArgsConstructor;
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
 
 
 @AllArgsConstructor
@@ -61,10 +53,10 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 .toList();
 
         String token = JWT.create()
-            .withSubject(authResult.getName())
-            .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.TOKEN_EXPIRATION))
-            .withClaim("roles", roles)
-            .sign(Algorithm.HMAC512(SecurityConstants.SECRET_KEY));
+                .withSubject(authResult.getName())
+                .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.TOKEN_EXPIRATION))
+                .withClaim("roles", roles)
+                .sign(Algorithm.HMAC512(SecurityConstants.SECRET_KEY));
         response.addHeader(SecurityConstants.AUTHORIZATION, SecurityConstants.BEARER + token);
         response.addHeader("Access-Control-Expose-Headers", "Authorization");
     }

@@ -19,7 +19,7 @@ public class ProductImageController {
     @Autowired
     ProductService productService;
 
-    @PostMapping(path = "{productId}/upload", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    @PostMapping(path = "{productId}/upload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<?> createProductImage(@PathVariable("productId") Long productId,
                                                 @RequestParam MultipartFile[] files) {
         Product product = productService.findById(productId);
@@ -42,7 +42,7 @@ public class ProductImageController {
     }
 
     @PostMapping("/{id}/delete")
-    public ResponseEntity<?> deleteProductImage(@PathVariable("id") Long id){
+    public ResponseEntity<?> deleteProductImage(@PathVariable("id") Long id) {
         try {
             productImageService.deleteById(id);
             return new ResponseEntity<>(HttpStatus.OK);

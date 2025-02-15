@@ -4,7 +4,7 @@ import hu.okrim.productreviewappcomplete.dto.CategoryDTO;
 import hu.okrim.productreviewappcomplete.model.Category;
 
 public class CategoryMapper {
-    public static CategoryDTO mapToCategoryDTO (Category category){
+    public static CategoryDTO mapToCategoryDTO(Category category) {
         return new CategoryDTO(
                 category.getId(),
                 category.getName(),
@@ -13,7 +13,8 @@ public class CategoryMapper {
                 category.getCharacteristics()
         );
     }
-    public static Category mapToCategory (CategoryDTO categoryDTO){
+
+    public static Category mapToCategory(CategoryDTO categoryDTO) {
         return new Category(
                 categoryDTO.getId() != null ? categoryDTO.getId() : null,
                 categoryDTO.getName(),

@@ -20,7 +20,7 @@ public class Role {
     @Column(length = 100)
     private String name;
 
-    public Role (RoleType roleType) {
+    public Role(RoleType roleType) {
         this.setName(roleType.name());
     }
 }

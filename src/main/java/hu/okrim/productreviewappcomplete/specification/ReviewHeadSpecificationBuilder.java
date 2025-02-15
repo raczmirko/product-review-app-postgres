@@ -1,6 +1,9 @@
 package hu.okrim.productreviewappcomplete.specification;
 
-import hu.okrim.productreviewappcomplete.model.*;
+import hu.okrim.productreviewappcomplete.model.Article;
+import hu.okrim.productreviewappcomplete.model.Country;
+import hu.okrim.productreviewappcomplete.model.Product;
+import hu.okrim.productreviewappcomplete.model.User;
 import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -21,8 +24,7 @@ public class ReviewHeadSpecificationBuilder<ReviewHead> {
             int numericId = Integer.parseInt(productId);
             specifications.add((root, query, builder) -> builder.equal(root.get("productId"), numericId));
             return this;
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             return this;
         }
     }
@@ -32,8 +34,7 @@ public class ReviewHeadSpecificationBuilder<ReviewHead> {
             int numericId = Integer.parseInt(userId);
             specifications.add((root, query, builder) -> builder.equal(root.get("userId"), numericId));
             return this;
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             return this;
         }
     }
@@ -97,8 +98,7 @@ public class ReviewHeadSpecificationBuilder<ReviewHead> {
             int numericId = Integer.parseInt(valueForPrice);
             specifications.add((root, query, builder) -> builder.equal(root.get("valueForPrice"), numericId));
             return this;
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             return this;
         }
     }
@@ -126,7 +126,8 @@ public class ReviewHeadSpecificationBuilder<ReviewHead> {
                                     builder.equal(root.get("date"), parsedDate)
                             )
                     );
-                } catch (DateTimeParseException ignored) {}
+                } catch (DateTimeParseException ignored) {
+                }
                 orSpecifications.add((root, query, builder) ->
                         builder.or(
                                 builder.like(root.join("user").get("username"), "%" + value + "%"),

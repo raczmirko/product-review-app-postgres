@@ -1,22 +1,29 @@
 package hu.okrim.productreviewappcomplete.service;
 
 import hu.okrim.productreviewappcomplete.dto.DashboardMostActiveUserDTO;
+import hu.okrim.productreviewappcomplete.exception.EntityNotFoundException;
 import hu.okrim.productreviewappcomplete.model.User;
 import hu.okrim.productreviewappcomplete.repository.UserRepository;
-import hu.okrim.productreviewappcomplete.exception.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    static User unwrapUser(Optional<User> entity, Long id) {
+        if (entity.isPresent()) return entity.get();
+        else throw new EntityNotFoundException(id, User.class);
+    }
+
     @Override
     public User findById(Long id) {
         Optional<User> user = userRepository.findById(id);
@@ -54,10 +61,5 @@ public class UserServiceImpl implements UserService{
     @Override
     public List<DashboardMostActiveUserDTO> findMostActiveUsers(Pageable pageable) {
         return userRepository.findMostActiveUsers(pageable);
-    }
-
-    static User unwrapUser(Optional<User> entity, Long id) {
-        if (entity.isPresent()) return entity.get();
-        else throw new EntityNotFoundException(id, User.class);
     }
 }

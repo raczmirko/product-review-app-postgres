@@ -4,7 +4,7 @@ import hu.okrim.productreviewappcomplete.dto.UserDTO;
 import hu.okrim.productreviewappcomplete.model.User;
 
 public class UserMapper {
-    public static UserDTO mapToUserDTO (User user){
+    public static UserDTO mapToUserDTO(User user) {
         return new UserDTO(
                 user.getId(),
                 user.getUsername(),
@@ -15,7 +15,8 @@ public class UserMapper {
                 user.getIsActive()
         );
     }
-    public static User mapToUser (UserDTO userDTO){
+
+    public static User mapToUser(UserDTO userDTO) {
         return new User(
                 userDTO.getId(),
                 userDTO.getUsername(),

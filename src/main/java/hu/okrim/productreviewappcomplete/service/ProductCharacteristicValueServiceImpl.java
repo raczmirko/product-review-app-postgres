@@ -13,9 +13,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ProductCharacteristicValueServiceImpl implements ProductCharacteristicsValueService{
+public class ProductCharacteristicValueServiceImpl implements ProductCharacteristicsValueService {
     @Autowired
     ProductCharacteristicValueRepository productCharacteristicValueRepository;
+
     @Override
     public List<ProductCharacteristicValue> findByProductId(Long id) {
         return productCharacteristicValueRepository.findByProductId(id);

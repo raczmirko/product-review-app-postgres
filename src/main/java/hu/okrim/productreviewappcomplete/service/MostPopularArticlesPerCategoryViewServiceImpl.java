@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class MostPopularArticlesPerCategoryViewServiceImpl implements MostPopularArticlesPerCategoryViewService{
+public class MostPopularArticlesPerCategoryViewServiceImpl implements MostPopularArticlesPerCategoryViewService {
     @Autowired
     MostPopularArticlesPerCategoryViewRepository mostPopularArticlesPerCategoryViewRepository;
 

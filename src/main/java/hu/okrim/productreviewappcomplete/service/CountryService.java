@@ -8,9 +8,13 @@ import org.springframework.data.jpa.domain.Specification;
 import java.util.List;
 
 public interface CountryService {
-    public Country findByCountryCode(String countryCode);
-    public void save(Country country);
-    public void deleteByCountryCode(String countryCode);
+    Country findByCountryCode(String countryCode);
+
+    void save(Country country);
+
+    void deleteByCountryCode(String countryCode);
+
     List<Country> findAll();
+
     Page<Country> findAllBySpecification(Specification<Country> specification, Pageable pageable);
 }

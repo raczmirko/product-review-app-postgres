@@ -27,7 +27,7 @@ public class ProductImage {
     @Column(name = "image", columnDefinition = "bytea")
     private byte[] image;
 
-    public ProductImage(Product product, byte[] image){
+    public ProductImage(Product product, byte[] image) {
         this.product = product;
         this.image = image;
     }

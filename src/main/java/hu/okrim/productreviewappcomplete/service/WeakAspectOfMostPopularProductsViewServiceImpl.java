@@ -11,6 +11,7 @@ import java.util.List;
 public class WeakAspectOfMostPopularProductsViewServiceImpl implements WeakAspectOfMostPopularProductsViewService {
     @Autowired
     WeakAspectOfMostPopularProductsViewRepository repository;
+
     @Override
     public List<WeakAspectOfMostPopularProductsView> findAll() {
         return repository.findAll();

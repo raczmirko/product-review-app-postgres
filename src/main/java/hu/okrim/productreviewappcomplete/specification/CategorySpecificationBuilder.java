@@ -10,31 +10,35 @@ import java.util.List;
 
 public class CategorySpecificationBuilder<Category> {
     private final List<Specification<Category>> specifications;
+
     public CategorySpecificationBuilder() {
         this.specifications = new ArrayList<>();
     }
+
     public CategorySpecificationBuilder<Category> withId(String id) {
         try {
             int numericId = Integer.parseInt(id);
             specifications.add((root, query, builder) -> builder.equal(root.get("id"), numericId));
             return this;
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             return this;
         }
     }
+
     public CategorySpecificationBuilder<Category> withName(String name) {
         if (name != null && !name.isEmpty()) {
             specifications.add((root, query, builder) -> builder.like(root.get("name"), "%" + name + "%"));
         }
         return this;
     }
+
     public CategorySpecificationBuilder<Category> withDescription(String description) {
         if (description != null && !description.isEmpty()) {
             specifications.add((root, query, builder) -> builder.like(root.get("description"), "%" + description + "%"));
         }
         return this;
     }
+
     public CategorySpecificationBuilder<Category> withParentCategory(String parentCategory) {
         if (parentCategory != null && !parentCategory.isEmpty()) {
             specifications.add((root, query, builder) -> {

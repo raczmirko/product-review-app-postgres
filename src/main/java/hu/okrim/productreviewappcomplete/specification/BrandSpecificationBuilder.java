@@ -20,8 +20,7 @@ public class BrandSpecificationBuilder<Brand> {
             int numericId = Integer.parseInt(id);
             specifications.add((root, query, builder) -> builder.equal(root.get("id"), numericId));
             return this;
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             return this;
         }
     }
@@ -68,11 +67,11 @@ public class BrandSpecificationBuilder<Brand> {
                     // Nothing to be done, ID filter is simply ignored
                 }
                 orSpecifications.add((root, query, builder) ->
-                    builder.or(
-                        builder.like(root.get("name"), "%" + value + "%"),
-                        builder.like(root.get("description"), "%" + value + "%"),
-                        builder.like(root.join("countryOfOrigin").get("name"), "%" + value + "%")
-                    ));
+                        builder.or(
+                                builder.like(root.get("name"), "%" + value + "%"),
+                                builder.like(root.get("description"), "%" + value + "%"),
+                                builder.like(root.join("countryOfOrigin").get("name"), "%" + value + "%")
+                        ));
             }
             specifications.add(Specification.where(orSpecifications.stream().reduce((a, b) -> a.or(b)).orElse(null)));
         }

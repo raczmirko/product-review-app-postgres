@@ -4,7 +4,7 @@ import hu.okrim.productreviewappcomplete.dto.CharacteristicDTO;
 import hu.okrim.productreviewappcomplete.model.Characteristic;
 
 public class CharacteristicMapper {
-    public static CharacteristicDTO mapToCharacteristicDTO (Characteristic characteristic){
+    public static CharacteristicDTO mapToCharacteristicDTO(Characteristic characteristic) {
         return new CharacteristicDTO(
                 characteristic.getId(),
                 characteristic.getName(),
@@ -14,7 +14,8 @@ public class CharacteristicMapper {
                 characteristic.getCategories()
         );
     }
-    public static Characteristic mapToCharacteristic (CharacteristicDTO characteristicDTO){
+
+    public static Characteristic mapToCharacteristic(CharacteristicDTO characteristicDTO) {
         return new Characteristic(
                 characteristicDTO.getId() != null ? characteristicDTO.getId() : null,
                 characteristicDTO.getName(),

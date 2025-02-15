@@ -44,7 +44,7 @@ public class PackagingController {
     }
 
     @PostMapping("/{id}/delete")
-    public ResponseEntity<?> deletePackaging(@PathVariable("id") Long id){
+    public ResponseEntity<?> deletePackaging(@PathVariable("id") Long id) {
         try {
             packagingService.deleteById(id);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -55,8 +55,8 @@ public class PackagingController {
     }
 
     @PostMapping("multi-delete/{ids}")
-    public ResponseEntity<?> deletePackagings(@PathVariable("ids") Long[] ids){
-        for(Long id : ids) {
+    public ResponseEntity<?> deletePackagings(@PathVariable("ids") Long[] ids) {
+        for (Long id : ids) {
             try {
                 packagingService.deleteById(id);
             } catch (Exception ex) {
@@ -68,7 +68,7 @@ public class PackagingController {
     }
 
     @PutMapping("/{id}/modify")
-    public ResponseEntity<?> modifyPackaging(@PathVariable("id") Long id, @RequestBody PackagingDTO packagingDTO){
+    public ResponseEntity<?> modifyPackaging(@PathVariable("id") Long id, @RequestBody PackagingDTO packagingDTO) {
         Packaging existingPackaging = packagingService.findById(id);
 
         if (existingPackaging == null) {
@@ -81,8 +81,7 @@ public class PackagingController {
             existingPackaging.setUnitOfMeasure(packagingDTO.getUnitOfMeasure());
             existingPackaging.setUnitOfMeasureName(packagingDTO.getUnitOfMeasureName());
             packagingService.save(existingPackaging);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             String errorMessage = SqlExceptionMessageHandler.packagingUpdateErrorMessage(ex);
             return new ResponseEntity<>(errorMessage, HttpStatus.CONFLICT);
         }
@@ -90,13 +89,12 @@ public class PackagingController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createPackaging(@RequestBody PackagingDTO packagingDTO){
+    public ResponseEntity<?> createPackaging(@RequestBody PackagingDTO packagingDTO) {
         Packaging packaging = PackagingMapper.mapToPackaging(packagingDTO);
         try {
             packagingService.save(packaging);
             return new ResponseEntity<>(HttpStatus.CREATED);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             String message = ex.getMessage();
             return new ResponseEntity<>(message, HttpStatus.CONFLICT);
         }
@@ -104,12 +102,12 @@ public class PackagingController {
 
     @GetMapping("/search")
     public ResponseEntity<Page<Packaging>> searchPackagings(@RequestParam(value = "searchText", required = false) String searchText,
-                                                        @RequestParam(value = "searchColumn", required = false) String searchColumn,
-                                                        @RequestParam(value = "quickFilterValues", required = false) String quickFilterValues,
-                                                        @RequestParam("pageSize") Integer pageSize,
-                                                        @RequestParam("pageNumber") Integer pageNumber,
-                                                        @RequestParam("orderByColumn") String orderByColumn,
-                                                        @RequestParam("orderByDirection") String orderByDirection ) {
+                                                            @RequestParam(value = "searchColumn", required = false) String searchColumn,
+                                                            @RequestParam(value = "quickFilterValues", required = false) String quickFilterValues,
+                                                            @RequestParam("pageSize") Integer pageSize,
+                                                            @RequestParam("pageNumber") Integer pageNumber,
+                                                            @RequestParam("orderByColumn") String orderByColumn,
+                                                            @RequestParam("orderByDirection") String orderByDirection) {
 
         PackagingSpecificationBuilder<Packaging> packagingSpecificationBuilder = new PackagingSpecificationBuilder<>();
         if (searchColumn != null) {
@@ -125,9 +123,8 @@ public class PackagingController {
 
                 }
             }
-        }
-        else {
-            if(quickFilterValues != null && !quickFilterValues.isEmpty()){
+        } else {
+            if (quickFilterValues != null && !quickFilterValues.isEmpty()) {
                 // When searchColumn is not provided all fields are searched
                 packagingSpecificationBuilder.withQuickFilterValues(List.of(quickFilterValues.split(",")));
             }
@@ -135,7 +132,7 @@ public class PackagingController {
         Specification<Packaging> specification = packagingSpecificationBuilder.build();
         Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by(orderByDirection.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, orderByColumn));
         Page<Packaging> packagingPage = packagingService.findAllBySpecification(specification, pageable);
-        return new ResponseEntity<>(packagingPage ,HttpStatus.OK);
+        return new ResponseEntity<>(packagingPage, HttpStatus.OK);
     }
 
     // Get all packagings options that are not yet assigned to an article (in form of a product)
@@ -143,7 +140,7 @@ public class PackagingController {
     public ResponseEntity<List<Packaging>> getAvailablePackagings(@PathVariable("articleId") Long articleId) {
         List<Packaging> allPackagings = packagingService.findAll();
         List<Product> productsOfArticle = productService.findProductsByArticleId(articleId);
-        for(Product p : productsOfArticle) {
+        for (Product p : productsOfArticle) {
             allPackagings.remove(p.getPackaging());
         }
         if (allPackagings.isEmpty()) {

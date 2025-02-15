@@ -10,9 +10,14 @@ import java.util.List;
 
 public interface AspectService {
     Aspect findById(Long id);
+
     void deleteById(Long id);
+
     void save(Aspect aspect);
+
     List<Aspect> findAll();
+
     Page<Aspect> findAllBySpecification(Specification<Aspect> specification, Pageable pageable);
+
     List<Aspect> findByCategory(Category category);
 }

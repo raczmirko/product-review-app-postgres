@@ -2,7 +2,6 @@ package hu.okrim.productreviewappcomplete.service;
 
 import hu.okrim.productreviewappcomplete.exception.EntityNotFoundException;
 import hu.okrim.productreviewappcomplete.model.Article;
-import hu.okrim.productreviewappcomplete.model.Brand;
 import hu.okrim.productreviewappcomplete.repository.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,9 +12,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ArticleServiceImpl implements ArticleService{
+public class ArticleServiceImpl implements ArticleService {
     @Autowired
     ArticleRepository articleRepository;
+
     @Override
     public Article findById(Long id) {
         return articleRepository.findById(id)

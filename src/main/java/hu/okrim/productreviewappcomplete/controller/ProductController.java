@@ -40,7 +40,7 @@ public class ProductController {
     }
 
     @PostMapping("/{id}/delete")
-    public ResponseEntity<?> deleteProduct(@PathVariable("id") Long id){
+    public ResponseEntity<?> deleteProduct(@PathVariable("id") Long id) {
         try {
             productService.deleteById(id);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -51,8 +51,8 @@ public class ProductController {
     }
 
     @PostMapping("multi-delete/{ids}")
-    public ResponseEntity<?> deleteProducts(@PathVariable("ids") Long[] ids){
-        for(Long id : ids) {
+    public ResponseEntity<?> deleteProducts(@PathVariable("ids") Long[] ids) {
+        for (Long id : ids) {
             try {
                 productService.deleteById(id);
             } catch (Exception ex) {
@@ -64,7 +64,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}/modify")
-    public ResponseEntity<?> modifyProduct(@PathVariable("id") Long id, @RequestBody ProductDTO productDTO){
+    public ResponseEntity<?> modifyProduct(@PathVariable("id") Long id, @RequestBody ProductDTO productDTO) {
         Product existingProduct = productService.findById(id);
 
         if (existingProduct == null) {
@@ -74,8 +74,7 @@ public class ProductController {
             existingProduct.setArticle(productDTO.getArticle());
             existingProduct.setPackaging(productDTO.getPackaging());
             productService.save(existingProduct);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             String errorMessage = ex.getMessage();
             return new ResponseEntity<>(errorMessage, HttpStatus.CONFLICT);
         }
@@ -83,13 +82,12 @@ public class ProductController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createProduct(@RequestBody ProductDTO productDTO){
+    public ResponseEntity<?> createProduct(@RequestBody ProductDTO productDTO) {
         Product product = ProductMapper.mapToProduct(productDTO);
         try {
             productService.save(product);
             return new ResponseEntity<>(product, HttpStatus.CREATED);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             String message = ex.getMessage();
             return new ResponseEntity<>(message, HttpStatus.CONFLICT);
         }
@@ -97,12 +95,12 @@ public class ProductController {
 
     @GetMapping("/search")
     public ResponseEntity<Page<Product>> searchProducts(@RequestParam(value = "searchText", required = false) String searchText,
-                                                      @RequestParam(value = "searchColumn", required = false) String searchColumn,
-                                                      @RequestParam(value = "quickFilterValues", required = false) String quickFilterValues,
-                                                      @RequestParam("pageSize") Integer pageSize,
-                                                      @RequestParam("pageNumber") Integer pageNumber,
-                                                      @RequestParam("orderByColumn") String orderByColumn,
-                                                      @RequestParam("orderByDirection") String orderByDirection
+                                                        @RequestParam(value = "searchColumn", required = false) String searchColumn,
+                                                        @RequestParam(value = "quickFilterValues", required = false) String quickFilterValues,
+                                                        @RequestParam("pageSize") Integer pageSize,
+                                                        @RequestParam("pageNumber") Integer pageNumber,
+                                                        @RequestParam("orderByColumn") String orderByColumn,
+                                                        @RequestParam("orderByDirection") String orderByDirection
     ) {
         ProductSpecificationBuilder<Product> productSpecificationBuilder = new ProductSpecificationBuilder<>();
         if (searchColumn != null) {
@@ -114,9 +112,8 @@ public class ProductController {
 
                 }
             }
-        }
-        else {
-            if(quickFilterValues != null && !quickFilterValues.isEmpty()){
+        } else {
+            if (quickFilterValues != null && !quickFilterValues.isEmpty()) {
                 // When searchColumn is not provided all fields are searched
                 productSpecificationBuilder.withQuickFilterValues(List.of(quickFilterValues.split(",")));
             }

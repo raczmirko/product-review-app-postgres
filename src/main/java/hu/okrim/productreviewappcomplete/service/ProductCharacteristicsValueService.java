@@ -10,11 +10,17 @@ import org.springframework.data.jpa.domain.Specification;
 import java.util.List;
 
 public interface ProductCharacteristicsValueService {
-    public List<ProductCharacteristicValue> findByProductId(Long id);
-    public List<ProductCharacteristicValue> findByCharacteristicId(Long id);
+    List<ProductCharacteristicValue> findByProductId(Long id);
+
+    List<ProductCharacteristicValue> findByCharacteristicId(Long id);
+
     void deleteById(Long id);
-    void save (ProductCharacteristicValue productCharacteristicValue);
+
+    void save(ProductCharacteristicValue productCharacteristicValue);
+
     List<ProductCharacteristicValue> findAll();
+
     Page<ProductCharacteristicValue> findAllBySpecification(Specification<ProductCharacteristicValue> specification, Pageable pageable);
+
     ProductCharacteristicValue findByProductAndCharacteristic(Product product, Characteristic characteristic);
 }

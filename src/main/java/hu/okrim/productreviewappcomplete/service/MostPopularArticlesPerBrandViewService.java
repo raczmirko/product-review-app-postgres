@@ -5,5 +5,5 @@ import hu.okrim.productreviewappcomplete.model.views.MostPopularArticlesPerBrand
 import java.util.List;
 
 public interface MostPopularArticlesPerBrandViewService {
-    public List<MostPopularArticlesPerBrandView> findAll();
+    List<MostPopularArticlesPerBrandView> findAll();
 }

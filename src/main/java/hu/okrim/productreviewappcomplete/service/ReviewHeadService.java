@@ -17,14 +17,24 @@ import java.util.Optional;
 
 public interface ReviewHeadService {
     ReviewHead findById(ReviewHeadId id);
+
     Optional<ReviewHead> findByUserAndProduct(User user, Product product);
+
     void deleteById(ReviewHeadId id);
-    void save (ReviewHead reviewHead);
+
+    void save(ReviewHead reviewHead);
+
     List<ReviewHead> findAll();
+
     Page<ReviewHead> findAllBySpecification(Specification<ReviewHead> specification, Pageable pageable);
+
     List<DashboardReviewByMonthDTO> findThisYearsReviewsGroupByMonth();
+
     List<DashboardUserRatingsPerCategoryDTO> findUserRatingsPerCategory(Long userId);
+
     List<DashboardUserBestRatedProductsDTO> findUserBestRatedProducts(Long userId);
+
     Double findUserDomesticProductPercentage(Long id);
+
     List<DashboardFavBrandProdDistDTO> findFavBrandProdDist(Long userId);
 }

@@ -1,6 +1,5 @@
 package hu.okrim.productreviewappcomplete.specification;
 
-import hu.okrim.productreviewappcomplete.model.Country;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.ArrayList;

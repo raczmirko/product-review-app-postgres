@@ -7,9 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ProductImageServiceImpl implements ProductImageService{
+public class ProductImageServiceImpl implements ProductImageService {
     @Autowired
     ProductImageRepository productImageRepository;
+
     @Override
     public ProductImage findById(Long id) {
         return productImageRepository.findById(id)

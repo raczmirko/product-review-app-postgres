@@ -8,10 +8,16 @@ import java.util.List;
 
 public interface UserService {
     User findById(Long id);
+
     User findByUsername(String username);
+
     void save(User user);
+
     void deleteById(Long id);
+
     List<User> findAll();
+
     String getUserRole(String username);
+
     List<DashboardMostActiveUserDTO> findMostActiveUsers(Pageable pageable);
 }

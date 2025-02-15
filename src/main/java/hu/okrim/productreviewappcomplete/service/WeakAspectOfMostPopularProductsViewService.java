@@ -5,5 +5,5 @@ import hu.okrim.productreviewappcomplete.model.views.WeakAspectOfMostPopularProd
 import java.util.List;
 
 public interface WeakAspectOfMostPopularProductsViewService {
-    public List<WeakAspectOfMostPopularProductsView> findAll();
+    List<WeakAspectOfMostPopularProductsView> findAll();
 }

@@ -1,7 +1,6 @@
 package hu.okrim.productreviewappcomplete.specification;
-import hu.okrim.productreviewappcomplete.model.Category;
-import hu.okrim.productreviewappcomplete.model.Characteristic;
 
+import hu.okrim.productreviewappcomplete.model.Category;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import org.springframework.data.jpa.domain.Specification;
@@ -21,8 +20,7 @@ public class CharacteristicSpecificationBuilder<Characteristic> {
             int numericId = Integer.parseInt(id);
             specifications.add((root, query, builder) -> builder.equal(root.get("id"), numericId));
             return this;
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             return this;
         }
     }

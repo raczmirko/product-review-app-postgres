@@ -39,34 +39,33 @@ public class AspectController {
         }
         return new ResponseEntity<>(aspects, HttpStatus.OK);
     }
+
     @PostMapping("/{id}/delete")
-    public ResponseEntity<?> deleteAspect(@PathVariable("id") Long id){
+    public ResponseEntity<?> deleteAspect(@PathVariable("id") Long id) {
         try {
             aspectService.deleteById(id);
             return new ResponseEntity<>(HttpStatus.OK);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             String message = SqlExceptionMessageHandler.aspectDeleteErrorMessage(ex);
             return new ResponseEntity<>(message, HttpStatus.CONFLICT);
         }
     }
 
     @PostMapping("multi-delete/{ids}")
-    public ResponseEntity<?> deleteAspects(@PathVariable("ids") Long[] ids){
+    public ResponseEntity<?> deleteAspects(@PathVariable("ids") Long[] ids) {
         try {
-            for(Long id : ids) {
+            for (Long id : ids) {
                 aspectService.deleteById(id);
             }
             return new ResponseEntity<>(HttpStatus.OK);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             String message = ex.getMessage();
             return new ResponseEntity<>(message, HttpStatus.CONFLICT);
         }
     }
 
     @PutMapping("/{id}/modify")
-    public ResponseEntity<?> modifyAspect(@PathVariable("id") Long id, @RequestBody AspectDTO aspectDTO){
+    public ResponseEntity<?> modifyAspect(@PathVariable("id") Long id, @RequestBody AspectDTO aspectDTO) {
         Aspect existingAspect = aspectService.findById(id);
 
         if (existingAspect == null) {
@@ -80,8 +79,7 @@ public class AspectController {
         try {
             aspectService.save(existingAspect);
             return new ResponseEntity<>(HttpStatus.OK);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             String errorMessage = SqlExceptionMessageHandler.aspectUpdateErrorMessage(ex);
             return new ResponseEntity<>(errorMessage, HttpStatus.CONFLICT);
         }
@@ -89,12 +87,11 @@ public class AspectController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createAspect(@RequestBody AspectDTO aspectDTO){
-        if(aspectNameNotPresentInHierarchy(aspectDTO.getName(), aspectDTO.getCategory())) {
+    public ResponseEntity<?> createAspect(@RequestBody AspectDTO aspectDTO) {
+        if (aspectNameNotPresentInHierarchy(aspectDTO.getName(), aspectDTO.getCategory())) {
             aspectService.save(AspectMapper.mapToAspect(aspectDTO));
             return new ResponseEntity<>(HttpStatus.CREATED);
-        }
-        else {
+        } else {
             String errorMessage = "ERROR: An aspect with the same name is already defined in the category hierarchy.";
             return new ResponseEntity<>(errorMessage, HttpStatus.CONFLICT);
         }
@@ -102,12 +99,12 @@ public class AspectController {
 
     @GetMapping("/search")
     public ResponseEntity<Page<Aspect>> searchAspects(@RequestParam(value = "searchText", required = false) String searchText,
-                                                    @RequestParam(value = "searchColumn", required = false) String searchColumn,
-                                                    @RequestParam(value = "quickFilterValues", required = false) String quickFilterValues,
-                                                    @RequestParam("pageSize") Integer pageSize,
-                                                    @RequestParam("pageNumber") Integer pageNumber,
-                                                    @RequestParam("orderByColumn") String orderByColumn,
-                                                    @RequestParam("orderByDirection") String orderByDirection
+                                                      @RequestParam(value = "searchColumn", required = false) String searchColumn,
+                                                      @RequestParam(value = "quickFilterValues", required = false) String quickFilterValues,
+                                                      @RequestParam("pageSize") Integer pageSize,
+                                                      @RequestParam("pageNumber") Integer pageNumber,
+                                                      @RequestParam("orderByColumn") String orderByColumn,
+                                                      @RequestParam("orderByDirection") String orderByDirection
     ) {
         AspectSpecificationBuilder<Aspect> aspectSpecificationBuilder = new AspectSpecificationBuilder<>();
         if (searchColumn != null) {
@@ -120,9 +117,8 @@ public class AspectController {
 
                 }
             }
-        }
-        else {
-            if(quickFilterValues != null && !quickFilterValues.isEmpty()){
+        } else {
+            if (quickFilterValues != null && !quickFilterValues.isEmpty()) {
                 // When searchColumn is not provided all fields are searched
                 aspectSpecificationBuilder.withQuickFilterValues(List.of(quickFilterValues.split(",")));
             }
@@ -134,7 +130,7 @@ public class AspectController {
     }
 
     @GetMapping("/{id}/available-aspects")
-    public ResponseEntity<Set<Aspect>> getAvailableAspects (@PathVariable("id") Long categoryId) {
+    public ResponseEntity<Set<Aspect>> getAvailableAspects(@PathVariable("id") Long categoryId) {
         // Find the category by the provided ID
         Category category = categoryService.findById(categoryId);
         // Find all aspects
@@ -161,11 +157,11 @@ public class AspectController {
     private boolean aspectNameNotPresentInHierarchy(String aspectName, Category category) {
         Set<Aspect> aspectsOfHierarchy = getAspectsOfCategoryTree(category);
         return aspectsOfHierarchy.stream()
-            .noneMatch(aspect -> aspect.getName().equalsIgnoreCase(aspectName));
+                .noneMatch(aspect -> aspect.getName().equalsIgnoreCase(aspectName));
     }
 
     @GetMapping("/{id}/category-aspects")
-    public ResponseEntity<Set<Aspect>> getAspectsByCategory (@PathVariable("id") Long categoryId) {
+    public ResponseEntity<Set<Aspect>> getAspectsByCategory(@PathVariable("id") Long categoryId) {
         // Find the category by the provided ID
         Category category = categoryService.findById(categoryId);
         Set<Aspect> categoryAspects = getAspectsOfCategoryTree(category);

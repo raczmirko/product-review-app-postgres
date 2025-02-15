@@ -12,9 +12,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class PackagingServiceImpl implements PackagingService{
+public class PackagingServiceImpl implements PackagingService {
     @Autowired
     PackagingRepository packagingRepository;
+
     @Override
     public Packaging findById(Long id) {
         return packagingRepository.findById(id)
