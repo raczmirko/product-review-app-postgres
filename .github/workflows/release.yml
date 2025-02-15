@@ -2,6 +2,8 @@ name: Release Build
 
 on:
   push:
+    branches:
+      - master
     tags:
       - 'v*'  # Triggers when a new tag like v1.2.3 is pushed
 
@@ -32,7 +34,7 @@ jobs:
         run: echo "VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
 
       - name: Build Project
-        run: ./mvnw clean package
+        run: mvn -B clean package -DskipTests
 
       - name: Create and Push Git Tag
         run: |
