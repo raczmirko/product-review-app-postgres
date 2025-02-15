@@ -22,15 +22,12 @@ jobs:
           distribution: 'temurin'
           java-version: 17
 
-      # Detect version from pom.xml (Maven)
+      # Get version number from POM
       - name: Get Version from pom.xml
-        if: exists('pom.xml')
-        run: echo "VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
-
-      # Detect version from build.gradle (Gradle)
-      - name: Get Version from build.gradle
-        if: "!exists('pom.xml') && exists('build.gradle')"
-        run: echo "VERSION=$(grep 'version' build.gradle | awk -F' ' '{print $2}' | tr -d '\"')" >> $GITHUB_ENV
+        run: |
+          if [ -f pom.xml ]; then
+            echo "VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+          fi
 
       # Check if Tag Already Exists
       - name: Check if Tag Already Exists
