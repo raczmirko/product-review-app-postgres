@@ -4,7 +4,7 @@ import hu.okrim.productreviewappcomplete.dto.AspectDTO;
 import hu.okrim.productreviewappcomplete.model.Aspect;
 
 public class AspectMapper {
-    public static AspectDTO mapToAspectDTO (Aspect aspect){
+    public static AspectDTO mapToAspectDTO(Aspect aspect) {
         return new AspectDTO(
                 aspect.getId(),
                 aspect.getName(),
@@ -12,7 +12,8 @@ public class AspectMapper {
                 aspect.getCategory()
         );
     }
-    public static Aspect mapToAspect (AspectDTO aspectDTO){
+
+    public static Aspect mapToAspect(AspectDTO aspectDTO) {
         return new Aspect(
                 aspectDTO.getId() != null ? aspectDTO.getId() : null,
                 aspectDTO.getName(),

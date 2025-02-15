@@ -16,27 +16,26 @@ import java.util.List;
 public class ProductCharacteristicValueController {
     @Autowired
     ProductCharacteristicsValueService pcvService;
+
     @PostMapping("/create")
-    public ResponseEntity<?> createOrModifyProductCharacteristicValue(@RequestBody ProductCharacteristicValueDTO pcvDTO){
+    public ResponseEntity<?> createOrModifyProductCharacteristicValue(@RequestBody ProductCharacteristicValueDTO pcvDTO) {
         ProductCharacteristicValue pcv = ProductCharacteristicValueMapper.mapToProductCharacteristicValue(pcvDTO);
         ProductCharacteristicValue updatedPcv = pcvService.findByProductAndCharacteristic(pcv.getProduct(), pcv.getCharacteristic());
         try {
-            if(updatedPcv != null){
+            if (updatedPcv != null) {
                 updatedPcv.setValue(pcv.getValue());
                 pcvService.save(updatedPcv);
-            }
-            else {
+            } else {
                 pcvService.save(pcv);
             }
             return new ResponseEntity<>(HttpStatus.CREATED);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
         }
     }
 
     @GetMapping("/{id}/all")
-    public ResponseEntity<?> findProductCharacteristicValuesByProduct(@PathVariable("id") Long id){
+    public ResponseEntity<?> findProductCharacteristicValuesByProduct(@PathVariable("id") Long id) {
         List<ProductCharacteristicValue> pcvs = pcvService.findByProductId(id);
         return new ResponseEntity<>(pcvs, HttpStatus.OK);
     }

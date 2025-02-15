@@ -2,7 +2,6 @@ package hu.okrim.productreviewappcomplete;
 
 import hu.okrim.productreviewappcomplete.exception.EntityNotFoundException;
 import hu.okrim.productreviewappcomplete.exception.ErrorResponse;
-
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpHeaders;
@@ -16,7 +15,6 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 

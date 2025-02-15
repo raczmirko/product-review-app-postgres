@@ -13,9 +13,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class AspectServiceImpl implements AspectService{
+public class AspectServiceImpl implements AspectService {
     @Autowired
     AspectRepository aspectRepository;
+
     @Override
     public Aspect findById(Long id) {
         return aspectRepository.findById(id)

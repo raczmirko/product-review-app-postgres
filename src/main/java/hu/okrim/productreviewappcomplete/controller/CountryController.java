@@ -23,6 +23,7 @@ import java.util.List;
 public class CountryController {
     @Autowired
     CountryService countryService;
+
     @GetMapping("/{id}")
     public ResponseEntity<String> findById(@PathVariable String countryCode) {
         return new ResponseEntity<>(countryService.findByCountryCode(countryCode).getName(), HttpStatus.OK);
@@ -44,33 +45,31 @@ public class CountryController {
     }
 
     @PostMapping("/{countryCode}/delete")
-    public ResponseEntity<?> deleteCountry(@PathVariable("countryCode") String countryCode){
+    public ResponseEntity<?> deleteCountry(@PathVariable("countryCode") String countryCode) {
         try {
             countryService.deleteByCountryCode(countryCode);
             return new ResponseEntity<>(HttpStatus.OK);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             String message = SqlExceptionMessageHandler.countryDeleteErrorMessage(ex);
             return new ResponseEntity<>(message, HttpStatus.CONFLICT);
         }
     }
 
     @PostMapping("/multi-delete/{countryCodes}")
-    public ResponseEntity<?> deleteCountries(@PathVariable("countryCodes") String[] countryCodes){
-        try{
-            for(String countryCode : countryCodes) {
+    public ResponseEntity<?> deleteCountries(@PathVariable("countryCodes") String[] countryCodes) {
+        try {
+            for (String countryCode : countryCodes) {
                 countryService.deleteByCountryCode(countryCode);
             }
             return new ResponseEntity<>(HttpStatus.OK);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             String message = SqlExceptionMessageHandler.countryDeleteErrorMessage(ex);
-            return  new ResponseEntity<>(message, HttpStatus.CONFLICT);
+            return new ResponseEntity<>(message, HttpStatus.CONFLICT);
         }
     }
 
     @PutMapping("/{countryCode}/modify")
-    public ResponseEntity<HttpStatus> modifyCountry(@PathVariable("countryCode") String countryCode, @RequestBody CountryDTO countryDTO){
+    public ResponseEntity<HttpStatus> modifyCountry(@PathVariable("countryCode") String countryCode, @RequestBody CountryDTO countryDTO) {
         Country existingCountry = countryService.findByCountryCode(countryDTO.getCountryCode());
 
         if (existingCountry == null) {
@@ -84,12 +83,12 @@ public class CountryController {
 
     @GetMapping("/search")
     public ResponseEntity<Page<Country>> searchCountries(@RequestParam(value = "searchText", required = false) String searchText,
-                                                    @RequestParam(value = "searchColumn", required = false) String searchColumn,
-                                                    @RequestParam(value = "quickFilterValues", required = false) String quickFilterValues,
-                                                    @RequestParam("pageSize") Integer pageSize,
-                                                    @RequestParam("pageNumber") Integer pageNumber,
-                                                    @RequestParam("orderByColumn") String orderByColumn,
-                                                    @RequestParam("orderByDirection") String orderByDirection) {
+                                                         @RequestParam(value = "searchColumn", required = false) String searchColumn,
+                                                         @RequestParam(value = "quickFilterValues", required = false) String quickFilterValues,
+                                                         @RequestParam("pageSize") Integer pageSize,
+                                                         @RequestParam("pageNumber") Integer pageNumber,
+                                                         @RequestParam("orderByColumn") String orderByColumn,
+                                                         @RequestParam("orderByDirection") String orderByDirection) {
         CountrySpecificationBuilder<Country> countryCountrySpecificationBuilder = new CountrySpecificationBuilder<>();
         if (searchColumn != null) {
             switch (searchColumn) {
@@ -99,9 +98,8 @@ public class CountryController {
                 }
                 // Handle unknown search columns
             }
-        }
-        else {
-            if(quickFilterValues != null && !quickFilterValues.isEmpty()){
+        } else {
+            if (quickFilterValues != null && !quickFilterValues.isEmpty()) {
                 // When searchColumn is not provided all fields are searched
                 countryCountrySpecificationBuilder.withQuickFilterValues(List.of(quickFilterValues.split(",")));
             }

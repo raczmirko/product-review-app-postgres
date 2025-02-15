@@ -1,9 +1,7 @@
 package hu.okrim.productreviewappcomplete.specification;
 
-import hu.okrim.productreviewappcomplete.model.Article;
 import hu.okrim.productreviewappcomplete.model.Brand;
 import hu.okrim.productreviewappcomplete.model.Category;
-import hu.okrim.productreviewappcomplete.model.Country;
 import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -22,8 +20,7 @@ public class ArticleSpecificationBuilder<Article> {
             int numericId = Integer.parseInt(id);
             specifications.add((root, query, builder) -> builder.equal(root.get("id"), numericId));
             return this;
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             return this;
         }
     }

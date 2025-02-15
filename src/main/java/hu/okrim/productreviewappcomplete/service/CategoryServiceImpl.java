@@ -14,9 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class CategoryServiceImpl implements CategoryService{
+public class CategoryServiceImpl implements CategoryService {
     @Autowired
     CategoryRepository categoryRepository;
+
     @Override
     public Category findById(Long id) {
         return categoryRepository.findById(id)

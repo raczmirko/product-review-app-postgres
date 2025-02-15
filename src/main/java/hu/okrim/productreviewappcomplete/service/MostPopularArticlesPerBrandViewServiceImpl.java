@@ -11,6 +11,7 @@ import java.util.List;
 public class MostPopularArticlesPerBrandViewServiceImpl implements MostPopularArticlesPerBrandViewService {
     @Autowired
     MostPopularArticlesPerBrandViewRepository mostPopularArticlesPerBrandViewRepository;
+
     @Override
     public List<MostPopularArticlesPerBrandView> findAll() {
         return mostPopularArticlesPerBrandViewRepository.findAll();

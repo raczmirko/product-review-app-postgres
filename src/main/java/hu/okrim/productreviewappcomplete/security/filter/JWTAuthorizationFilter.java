@@ -1,11 +1,7 @@
 package hu.okrim.productreviewappcomplete.security.filter;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import hu.okrim.productreviewappcomplete.security.SecurityConstants;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -17,8 +13,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
+import java.io.IOException;
+import java.util.List;
 
 public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
@@ -33,15 +29,15 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
         String token = header.replace(SecurityConstants.BEARER, "");
         String user = JWT.require(Algorithm.HMAC512(SecurityConstants.SECRET_KEY))
-            .build()
-            .verify(token)
-            .getSubject();
+                .build()
+                .verify(token)
+                .getSubject();
 
         // Extract roles from JWT token claims
         List<String> roles = JWT.decode(token).getClaim("roles").asList(String.class);
         List<SimpleGrantedAuthority> authorities = roles.stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role)).toList();
 
-        Authentication authentication = new UsernamePasswordAuthenticationToken(user, null,  authorities);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         filterChain.doFilter(request, response);
     }

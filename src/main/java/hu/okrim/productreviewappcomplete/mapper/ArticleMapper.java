@@ -4,7 +4,7 @@ import hu.okrim.productreviewappcomplete.dto.ArticleDTO;
 import hu.okrim.productreviewappcomplete.model.Article;
 
 public class ArticleMapper {
-    public static ArticleDTO mapToArticleDTO (Article article){
+    public static ArticleDTO mapToArticleDTO(Article article) {
         return new ArticleDTO(
                 article.getId(),
                 article.getName(),
@@ -13,7 +13,8 @@ public class ArticleMapper {
                 article.getDescription()
         );
     }
-    public static Article mapToArticle (ArticleDTO articleDTO){
+
+    public static Article mapToArticle(ArticleDTO articleDTO) {
         return new Article(
                 articleDTO.getId() != null ? articleDTO.getId() : null,
                 articleDTO.getName(),

@@ -33,12 +33,13 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Category> getCategory(@PathVariable ("id") Long id) {
+    public ResponseEntity<Category> getCategory(@PathVariable("id") Long id) {
         Category category = categoryService.findById(id);
         return new ResponseEntity<>(category, HttpStatus.OK);
     }
+
     @PostMapping("/{id}/delete")
-    public ResponseEntity<?> deleteCategory(@PathVariable("id") Long id){
+    public ResponseEntity<?> deleteCategory(@PathVariable("id") Long id) {
         try {
             categoryService.deleteById(id);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -49,8 +50,8 @@ public class CategoryController {
     }
 
     @PostMapping("multi-delete/{ids}")
-    public ResponseEntity<?> deleteCategories(@PathVariable("ids") Long[] ids){
-        for(Long id : ids) {
+    public ResponseEntity<?> deleteCategories(@PathVariable("ids") Long[] ids) {
+        for (Long id : ids) {
             try {
                 categoryService.deleteById(id);
             } catch (Exception ex) {
@@ -62,7 +63,7 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}/modify")
-    public ResponseEntity<?> modifyCategory(@PathVariable("id") Long id, @RequestBody CategoryDTO categoryDTO){
+    public ResponseEntity<?> modifyCategory(@PathVariable("id") Long id, @RequestBody CategoryDTO categoryDTO) {
         Category existingCategory = categoryService.findById(id);
         if (existingCategory == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -71,38 +72,36 @@ public class CategoryController {
         existingCategory.setDescription(categoryDTO.getDescription());
         existingCategory.setParentCategory(categoryDTO.getParentCategory());
         existingCategory.setCharacteristics(categoryDTO.getCharacteristics());
-        try{
+        try {
             categoryService.save(existingCategory);
             return new ResponseEntity<>(HttpStatus.OK);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             String message = SqlExceptionMessageHandler.categoryUpdateErrorMessage(ex);
             return new ResponseEntity<>(message, HttpStatus.CONFLICT);
         }
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createCategory(@RequestBody CategoryDTO categoryDTO){
+    public ResponseEntity<?> createCategory(@RequestBody CategoryDTO categoryDTO) {
         Category category = new Category(categoryDTO.getName(), categoryDTO.getDescription());
-        if(categoryDTO.getParentCategory() != null) category.setParentCategory(categoryDTO.getParentCategory());
+        if (categoryDTO.getParentCategory() != null) category.setParentCategory(categoryDTO.getParentCategory());
         try {
             categoryService.save(category);
             return new ResponseEntity<>(HttpStatus.CREATED);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             String message = SqlExceptionMessageHandler.categoryCreateErrorMessage(ex);
             return new ResponseEntity<>(message, HttpStatus.CONFLICT);
         }
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Page<Category >> searchCategories(@RequestParam(value = "searchText", required = false) String searchText,
-                                                    @RequestParam(value = "searchColumn", required = false) String searchColumn,
-                                                    @RequestParam(value = "quickFilterValues", required = false) String quickFilterValues,
-                                                    @RequestParam("pageSize") Integer pageSize,
-                                                    @RequestParam("pageNumber") Integer pageNumber,
-                                                    @RequestParam("orderByColumn") String orderByColumn,
-                                                    @RequestParam("orderByDirection") String orderByDirection ) {
+    public ResponseEntity<Page<Category>> searchCategories(@RequestParam(value = "searchText", required = false) String searchText,
+                                                           @RequestParam(value = "searchColumn", required = false) String searchColumn,
+                                                           @RequestParam(value = "quickFilterValues", required = false) String quickFilterValues,
+                                                           @RequestParam("pageSize") Integer pageSize,
+                                                           @RequestParam("pageNumber") Integer pageNumber,
+                                                           @RequestParam("orderByColumn") String orderByColumn,
+                                                           @RequestParam("orderByDirection") String orderByDirection) {
 
         CategorySpecificationBuilder<Category> categoryCategorySpecificationBuilder = new CategorySpecificationBuilder<>();
         if (searchColumn != null) {
@@ -115,9 +114,8 @@ public class CategoryController {
 
                 }
             }
-        }
-        else {
-            if(quickFilterValues != null && !quickFilterValues.isEmpty()){
+        } else {
+            if (quickFilterValues != null && !quickFilterValues.isEmpty()) {
                 // When searchColumn is not provided all fields are searched
                 categoryCategorySpecificationBuilder.withQuickFilterValues(List.of(quickFilterValues.split(",")));
             }

@@ -9,8 +9,12 @@ import java.util.List;
 
 public interface BrandService {
     Brand findById(Long id);
+
     void deleteById(Long id);
+
     void save(Brand brand);
+
     List<Brand> findAll();
+
     Page<Brand> findAllBySpecification(Specification<Brand> specification, Pageable pageable);
 }

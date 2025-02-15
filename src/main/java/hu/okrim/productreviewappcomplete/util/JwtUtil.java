@@ -8,12 +8,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-
 @Component
 public class JwtUtil {
     @Autowired
     UserService userService;
+
     public String extractUserFromToken(HttpServletRequest request) {
         String header = request.getHeader("Authorization");
         String returnUser = null;

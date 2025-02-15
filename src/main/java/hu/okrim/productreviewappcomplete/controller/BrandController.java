@@ -32,34 +32,33 @@ public class BrandController {
         }
         return new ResponseEntity<>(brands, HttpStatus.OK);
     }
+
     @PostMapping("/{id}/delete")
-    public ResponseEntity<?> deleteBrand(@PathVariable("id") Long id){
+    public ResponseEntity<?> deleteBrand(@PathVariable("id") Long id) {
         try {
             brandService.deleteById(id);
             return new ResponseEntity<>(HttpStatus.OK);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             String message = SqlExceptionMessageHandler.brandDeleteErrorMessage(ex);
             return new ResponseEntity<>(message, HttpStatus.CONFLICT);
         }
     }
 
     @PostMapping("multi-delete/{ids}")
-    public ResponseEntity<?> deleteBrands(@PathVariable("ids") Long[] ids){
+    public ResponseEntity<?> deleteBrands(@PathVariable("ids") Long[] ids) {
         try {
-            for(Long id : ids) {
+            for (Long id : ids) {
                 brandService.deleteById(id);
             }
             return new ResponseEntity<>(HttpStatus.OK);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             String message = SqlExceptionMessageHandler.brandDeleteErrorMessage(ex);
             return new ResponseEntity<>(message, HttpStatus.CONFLICT);
         }
     }
 
     @PutMapping("/{id}/modify")
-    public ResponseEntity<HttpStatus> modifyBrand(@PathVariable("id") Long id, @RequestBody BrandDTO brandDTO){
+    public ResponseEntity<HttpStatus> modifyBrand(@PathVariable("id") Long id, @RequestBody BrandDTO brandDTO) {
         Brand existingBrand = brandService.findById(id);
 
         if (existingBrand == null) {
@@ -76,7 +75,7 @@ public class BrandController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<HttpStatus> createBrand(@RequestBody BrandDTO brandDTO){
+    public ResponseEntity<HttpStatus> createBrand(@RequestBody BrandDTO brandDTO) {
         brandService.save(BrandMapper.mapToBrand(brandDTO));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -89,7 +88,7 @@ public class BrandController {
                                                     @RequestParam("pageNumber") Integer pageNumber,
                                                     @RequestParam("orderByColumn") String orderByColumn,
                                                     @RequestParam("orderByDirection") String orderByDirection
-                                                    ) {
+    ) {
         BrandSpecificationBuilder<Brand> brandBrandSpecificationBuilder = new BrandSpecificationBuilder<>();
         if (searchColumn != null) {
             switch (searchColumn) {
@@ -101,9 +100,8 @@ public class BrandController {
 
                 }
             }
-        }
-        else {
-            if(quickFilterValues != null && !quickFilterValues.isEmpty()){
+        } else {
+            if (quickFilterValues != null && !quickFilterValues.isEmpty()) {
                 // When searchColumn is not provided all fields are searched
                 brandBrandSpecificationBuilder.withQuickFilterValues(List.of(quickFilterValues.split(",")));
             }

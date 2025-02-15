@@ -17,13 +17,13 @@ public class SecurityController {
     UserService userService;
 
     @GetMapping("/session-second")
-    public ResponseEntity<Integer> getSessionDuration(){
+    public ResponseEntity<Integer> getSessionDuration() {
         Integer timeout = SecurityConstants.TOKEN_EXPIRATION / 1000;
         return new ResponseEntity<>(timeout, HttpStatus.OK);
     }
 
     @GetMapping("/current-user-role")
-    public ResponseEntity<String> getCurrentUserRole(@RequestParam String username){
+    public ResponseEntity<String> getCurrentUserRole(@RequestParam String username) {
         String role = userService.getUserRole(username);
         return new ResponseEntity<>(role, HttpStatus.OK);
     }

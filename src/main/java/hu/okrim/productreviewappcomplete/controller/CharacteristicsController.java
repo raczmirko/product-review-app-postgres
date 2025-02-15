@@ -32,6 +32,7 @@ public class CharacteristicsController {
     ProductCharacteristicsValueService productCharacteristicsValueService;
     @Autowired
     CategoryService categoryService;
+
     @GetMapping("/all")
     public ResponseEntity<List<Characteristic>> getCharacteristics() {
         List<Characteristic> characteristics = characteristicService.findAll();
@@ -42,13 +43,13 @@ public class CharacteristicsController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Characteristic> getCharacteristic(@PathVariable ("id") Long id) {
+    public ResponseEntity<Characteristic> getCharacteristic(@PathVariable("id") Long id) {
         Characteristic characteristic = characteristicService.findById(id);
         return new ResponseEntity<>(characteristic, HttpStatus.OK);
     }
 
     @PostMapping("/{id}/delete")
-    public ResponseEntity<?> deleteCharacteristic(@PathVariable("id") Long id){
+    public ResponseEntity<?> deleteCharacteristic(@PathVariable("id") Long id) {
         try {
             //First, delete all assigned values
             List<ProductCharacteristicValue> foundValues = productCharacteristicsValueService.findByCharacteristicId(id);
@@ -63,8 +64,8 @@ public class CharacteristicsController {
     }
 
     @PostMapping("multi-delete/{ids}")
-    public ResponseEntity<?> deleteCharacteristics(@PathVariable("ids") Long[] ids){
-        for(Long id : ids) {
+    public ResponseEntity<?> deleteCharacteristics(@PathVariable("ids") Long[] ids) {
+        for (Long id : ids) {
             try {
                 //First, delete all assigned values
                 List<ProductCharacteristicValue> foundValues = productCharacteristicsValueService.findByCharacteristicId(id);
@@ -80,7 +81,7 @@ public class CharacteristicsController {
     }
 
     @PostMapping("/{id}/cascade-delete")
-    public ResponseEntity<?> cascadeDeleteCharacteristic(@PathVariable("id") Long id){
+    public ResponseEntity<?> cascadeDeleteCharacteristic(@PathVariable("id") Long id) {
         try {
             Characteristic foundCharacteristic = characteristicService.findById(id);
             Set<Category> categories = foundCharacteristic.getCategories();
@@ -101,7 +102,7 @@ public class CharacteristicsController {
     }
 
     @PutMapping("/{id}/modify")
-    public ResponseEntity<?> modifyCharacteristic(@PathVariable("id") Long id, @RequestBody CharacteristicDTO characteristicDTO){
+    public ResponseEntity<?> modifyCharacteristic(@PathVariable("id") Long id, @RequestBody CharacteristicDTO characteristicDTO) {
         Characteristic existingCharacteristic = characteristicService.findById(id);
 
         if (existingCharacteristic == null) {
@@ -113,8 +114,7 @@ public class CharacteristicsController {
             existingCharacteristic.setUnitOfMeasure(characteristicDTO.getUnitOfMeasure());
             existingCharacteristic.setDescription(characteristicDTO.getDescription());
             characteristicService.save(existingCharacteristic);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             String errorMessage = SqlExceptionMessageHandler.characteristicCreateErrorMessage(ex);
             return new ResponseEntity<>(errorMessage, HttpStatus.CONFLICT);
         }
@@ -122,13 +122,12 @@ public class CharacteristicsController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createCharacteristic(@RequestBody CharacteristicDTO characteristicDTO){
+    public ResponseEntity<?> createCharacteristic(@RequestBody CharacteristicDTO characteristicDTO) {
         Characteristic characteristic = CharacteristicMapper.mapToCharacteristic(characteristicDTO);
         try {
             characteristicService.save(characteristic);
             return new ResponseEntity<>(HttpStatus.CREATED);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             String message = SqlExceptionMessageHandler.characteristicCreateErrorMessage(ex);
             return new ResponseEntity<>(message, HttpStatus.CONFLICT);
         }
@@ -136,12 +135,12 @@ public class CharacteristicsController {
 
     @GetMapping("/search")
     public ResponseEntity<Page<Characteristic>> searchCharacteristics(@RequestParam(value = "searchText", required = false) String searchText,
-                                                        @RequestParam(value = "searchColumn", required = false) String searchColumn,
-                                                        @RequestParam(value = "quickFilterValues", required = false) String quickFilterValues,
-                                                        @RequestParam("pageSize") Integer pageSize,
-                                                        @RequestParam("pageNumber") Integer pageNumber,
-                                                        @RequestParam("orderByColumn") String orderByColumn,
-                                                        @RequestParam("orderByDirection") String orderByDirection ) {
+                                                                      @RequestParam(value = "searchColumn", required = false) String searchColumn,
+                                                                      @RequestParam(value = "quickFilterValues", required = false) String quickFilterValues,
+                                                                      @RequestParam("pageSize") Integer pageSize,
+                                                                      @RequestParam("pageNumber") Integer pageNumber,
+                                                                      @RequestParam("orderByColumn") String orderByColumn,
+                                                                      @RequestParam("orderByDirection") String orderByDirection) {
 
         CharacteristicSpecificationBuilder<Characteristic> characteristicSpecificationBuilder = new CharacteristicSpecificationBuilder<>();
         if (searchColumn != null) {
@@ -155,9 +154,8 @@ public class CharacteristicsController {
 
                 }
             }
-        }
-        else {
-            if(quickFilterValues != null && !quickFilterValues.isEmpty()){
+        } else {
+            if (quickFilterValues != null && !quickFilterValues.isEmpty()) {
                 // When searchColumn is not provided all fields are searched
                 characteristicSpecificationBuilder.withQuickFilterValues(List.of(quickFilterValues.split(",")));
             }
@@ -165,16 +163,16 @@ public class CharacteristicsController {
         Specification<Characteristic> specification = characteristicSpecificationBuilder.build();
         Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by(orderByDirection.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, orderByColumn));
         Page<Characteristic> characteristicPage = characteristicService.findAllBySpecification(specification, pageable);
-        return new ResponseEntity<>(characteristicPage ,HttpStatus.OK);
+        return new ResponseEntity<>(characteristicPage, HttpStatus.OK);
     }
 
     @GetMapping("/{id}/list-characteristic-category-trees")
-    public ResponseEntity<?> listCharacteristicCategories (@PathVariable("id") Long id) {
+    public ResponseEntity<?> listCharacteristicCategories(@PathVariable("id") Long id) {
         Characteristic characteristic = characteristicService.findById(id);
         Set<Category> assignedCategories = characteristic.getCategories();
         List<CategoryHierarchyDTO> assignedCategoryHierarchy = new ArrayList<>();
         // Create the categoryHierarchy of each assigned category
-        for(Category assignedCategory: assignedCategories){
+        for (Category assignedCategory : assignedCategories) {
             // Get all subcategories of current category
             List<Category> currentSubcategories = categoryService.findSubcategories(assignedCategory);
             // Iterate through each subcategory and get all further subcategories of each individual subcategory
@@ -195,7 +193,7 @@ public class CharacteristicsController {
     }
 
     @GetMapping("/{id}/available-characteristics")
-    public ResponseEntity<Set<Characteristic>> getAvailableCharacteristics (@PathVariable("id") Long categoryId) {
+    public ResponseEntity<Set<Characteristic>> getAvailableCharacteristics(@PathVariable("id") Long categoryId) {
         // Find the category by the provided ID
         Category category = categoryService.findById(categoryId);
         // Find all characteristics
@@ -220,10 +218,10 @@ public class CharacteristicsController {
     }
 
     @GetMapping("/{id}/list-inherited-characteristics")
-    public ResponseEntity<?> listInheritedCharacteristics (@PathVariable("id") Long categoryId) {
+    public ResponseEntity<?> listInheritedCharacteristics(@PathVariable("id") Long categoryId) {
         Category category = categoryService.findById(categoryId);
         List<Characteristic> inheritedCharacteristics = new ArrayList<>();
-        while(category.getParentCategory() != null) {
+        while (category.getParentCategory() != null) {
             category = category.getParentCategory();
             inheritedCharacteristics.addAll(category.getCharacteristics());
         }
@@ -231,7 +229,7 @@ public class CharacteristicsController {
     }
 
     @GetMapping("/{id}/list-assigned-characteristics")
-    public ResponseEntity<?> listAssignedCharacteristics (@PathVariable("id") Long categoryId) {
+    public ResponseEntity<?> listAssignedCharacteristics(@PathVariable("id") Long categoryId) {
         Category category = categoryService.findById(categoryId);
         List<Characteristic> inheritedCharacteristics = new ArrayList<>();
         do {

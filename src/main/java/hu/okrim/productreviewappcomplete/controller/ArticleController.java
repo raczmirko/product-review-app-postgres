@@ -40,7 +40,7 @@ public class ArticleController {
     }
 
     @PostMapping("/{id}/delete")
-    public ResponseEntity<?> deleteArticle(@PathVariable("id") Long id){
+    public ResponseEntity<?> deleteArticle(@PathVariable("id") Long id) {
         try {
             articleService.deleteById(id);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -51,8 +51,8 @@ public class ArticleController {
     }
 
     @PostMapping("multi-delete/{ids}")
-    public ResponseEntity<?> deleteArticles(@PathVariable("ids") Long[] ids){
-        for(Long id : ids) {
+    public ResponseEntity<?> deleteArticles(@PathVariable("ids") Long[] ids) {
+        for (Long id : ids) {
             try {
                 articleService.deleteById(id);
             } catch (Exception ex) {
@@ -64,7 +64,7 @@ public class ArticleController {
     }
 
     @PutMapping("/{id}/modify")
-    public ResponseEntity<?> modifyArticle(@PathVariable("id") Long id, @RequestBody ArticleDTO articleDTO){
+    public ResponseEntity<?> modifyArticle(@PathVariable("id") Long id, @RequestBody ArticleDTO articleDTO) {
         Article existingArticle = articleService.findById(id);
 
         if (existingArticle == null) {
@@ -76,8 +76,7 @@ public class ArticleController {
             existingArticle.setCategory(articleDTO.getCategory());
             existingArticle.setDescription(articleDTO.getDescription());
             articleService.save(existingArticle);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             String errorMessage = SqlExceptionMessageHandler.articleUpdateErrorMessage(ex);
             return new ResponseEntity<>(errorMessage, HttpStatus.CONFLICT);
         }
@@ -85,13 +84,12 @@ public class ArticleController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createArticle(@RequestBody ArticleDTO articleDTO){
+    public ResponseEntity<?> createArticle(@RequestBody ArticleDTO articleDTO) {
         Article article = ArticleMapper.mapToArticle(articleDTO);
         try {
             articleService.save(article);
             return new ResponseEntity<>(HttpStatus.CREATED);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             String message = ex.getMessage();
             return new ResponseEntity<>(message, HttpStatus.CONFLICT);
         }
@@ -99,12 +97,12 @@ public class ArticleController {
 
     @GetMapping("/search")
     public ResponseEntity<Page<Article>> searchArticles(@RequestParam(value = "searchText", required = false) String searchText,
-                                                                      @RequestParam(value = "searchColumn", required = false) String searchColumn,
-                                                                      @RequestParam(value = "quickFilterValues", required = false) String quickFilterValues,
-                                                                      @RequestParam("pageSize") Integer pageSize,
-                                                                      @RequestParam("pageNumber") Integer pageNumber,
-                                                                      @RequestParam("orderByColumn") String orderByColumn,
-                                                                      @RequestParam("orderByDirection") String orderByDirection ) {
+                                                        @RequestParam(value = "searchColumn", required = false) String searchColumn,
+                                                        @RequestParam(value = "quickFilterValues", required = false) String quickFilterValues,
+                                                        @RequestParam("pageSize") Integer pageSize,
+                                                        @RequestParam("pageNumber") Integer pageNumber,
+                                                        @RequestParam("orderByColumn") String orderByColumn,
+                                                        @RequestParam("orderByDirection") String orderByDirection) {
 
         ArticleSpecificationBuilder<Article> articleSpecificationBuilder = new ArticleSpecificationBuilder<>();
         if (searchColumn != null) {
@@ -118,9 +116,8 @@ public class ArticleController {
 
                 }
             }
-        }
-        else {
-            if(quickFilterValues != null && !quickFilterValues.isEmpty()){
+        } else {
+            if (quickFilterValues != null && !quickFilterValues.isEmpty()) {
                 // When searchColumn is not provided all fields are searched
                 articleSpecificationBuilder.withQuickFilterValues(List.of(quickFilterValues.split(",")));
             }
@@ -128,6 +125,6 @@ public class ArticleController {
         Specification<Article> specification = articleSpecificationBuilder.build();
         Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by(orderByDirection.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, orderByColumn));
         Page<Article> articlePage = articleService.findAllBySpecification(specification, pageable);
-        return new ResponseEntity<>(articlePage ,HttpStatus.OK);
+        return new ResponseEntity<>(articlePage, HttpStatus.OK);
     }
 }

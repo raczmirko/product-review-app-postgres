@@ -13,5 +13,6 @@ import java.util.List;
 @Repository
 public interface AspectRepository extends JpaRepository<Aspect, Long> {
     Page<Aspect> findAll(Specification<Aspect> specification, Pageable pageable);
+
     List<Aspect> findAllByCategory(Category category);
 }

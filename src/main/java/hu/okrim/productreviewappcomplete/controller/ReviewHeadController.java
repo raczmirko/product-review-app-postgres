@@ -2,7 +2,10 @@ package hu.okrim.productreviewappcomplete.controller;
 
 import hu.okrim.productreviewappcomplete.dto.AspectWithValueDTO;
 import hu.okrim.productreviewappcomplete.dto.ReviewHeadDTO;
-import hu.okrim.productreviewappcomplete.model.*;
+import hu.okrim.productreviewappcomplete.model.Product;
+import hu.okrim.productreviewappcomplete.model.ReviewBody;
+import hu.okrim.productreviewappcomplete.model.ReviewHead;
+import hu.okrim.productreviewappcomplete.model.User;
 import hu.okrim.productreviewappcomplete.model.compositeKey.ReviewBodyId;
 import hu.okrim.productreviewappcomplete.model.compositeKey.ReviewHeadId;
 import hu.okrim.productreviewappcomplete.service.ProductService;
@@ -111,7 +114,7 @@ public class ReviewHeadController {
     public ResponseEntity<?> deleteReviewHeads(@RequestBody List<String> keyPairs,
                                                HttpServletRequest httpRequest) {
         //Frontend is sending key pairs in "username-productId" format
-        for(String keyPair : keyPairs){
+        for (String keyPair : keyPairs) {
             String[] parts = keyPair.split("-");
             String username = parts[0];
             Long productId = Long.parseLong(parts[1]);
@@ -137,9 +140,9 @@ public class ReviewHeadController {
 
     @PutMapping("/{username}/{productId}/modify")
     public ResponseEntity<?> modifyReviewHead(@PathVariable("username") String username,
-                                                       @PathVariable("productId") Long productId,
-                                                       @RequestBody ReviewHeadDTO reviewHeadDTO,
-                                                       HttpServletRequest httpRequest) {
+                                              @PathVariable("productId") Long productId,
+                                              @RequestBody ReviewHeadDTO reviewHeadDTO,
+                                              HttpServletRequest httpRequest) {
         ResponseEntity<?> authorizationResponse = authorizationUtil.checkAuthorization(httpRequest, username);
         String userRole = jwtUtil.extractUserRoleFromToken(httpRequest);
         if (authorizationResponse != null && !userRole.equals("ADMIN")) {
@@ -185,13 +188,12 @@ public class ReviewHeadController {
         }
 
         List<ReviewBody> reviewBodies = new ArrayList<>();
-        for(AspectWithValueDTO aspect: aspects) {
+        for (AspectWithValueDTO aspect : aspects) {
             ReviewBodyId bodyId = new ReviewBodyId(user.getId(), product.getId(), aspect.getId());
             //If aspect is sent with a null score it should be deleted from reviewBody
-            if(aspect.getScore() == null) {
+            if (aspect.getScore() == null) {
                 reviewBodyService.deleteById(bodyId);
-            }
-            else {
+            } else {
                 reviewBodies.add(new ReviewBody(bodyId, aspect.getScore(), reviewHead));
             }
         }
@@ -207,12 +209,12 @@ public class ReviewHeadController {
 
     @GetMapping("/search")
     public ResponseEntity<Page<ReviewHead>> searchAspects(@RequestParam(value = "searchText", required = false) String searchText,
-                                                      @RequestParam(value = "searchColumn", required = false) String searchColumn,
-                                                      @RequestParam(value = "quickFilterValues", required = false) String quickFilterValues,
-                                                      @RequestParam("pageSize") Integer pageSize,
-                                                      @RequestParam("pageNumber") Integer pageNumber,
-                                                      @RequestParam("orderByColumn") String orderByColumn,
-                                                      @RequestParam("orderByDirection") String orderByDirection
+                                                          @RequestParam(value = "searchColumn", required = false) String searchColumn,
+                                                          @RequestParam(value = "quickFilterValues", required = false) String quickFilterValues,
+                                                          @RequestParam("pageSize") Integer pageSize,
+                                                          @RequestParam("pageNumber") Integer pageNumber,
+                                                          @RequestParam("orderByColumn") String orderByColumn,
+                                                          @RequestParam("orderByDirection") String orderByDirection
     ) {
         ReviewHeadSpecificationBuilder<ReviewHead> reviewHeadSpecificationBuilder = new ReviewHeadSpecificationBuilder<>();
         if (searchColumn != null) {
@@ -228,9 +230,8 @@ public class ReviewHeadController {
 
                 }
             }
-        }
-        else {
-            if(quickFilterValues != null && !quickFilterValues.isEmpty()){
+        } else {
+            if (quickFilterValues != null && !quickFilterValues.isEmpty()) {
                 // When searchColumn is not provided all fields are searched
                 reviewHeadSpecificationBuilder.withQuickFilterValues(List.of(quickFilterValues.split(",")));
             }
@@ -249,8 +250,7 @@ public class ReviewHeadController {
         Optional<ReviewHead> reviewHead = reviewHeadService.findByUserAndProduct(user, product);
         if (reviewHead.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.OK);
-        }
-        else {
+        } else {
             String errorMessage = "You already have a review for this product.";
             return new ResponseEntity<>(errorMessage, HttpStatus.CONFLICT);
         }

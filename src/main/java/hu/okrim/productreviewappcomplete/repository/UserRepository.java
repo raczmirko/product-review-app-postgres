@@ -13,7 +13,9 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findAll();
+
     Optional<User> findByUsername(String username);
+
     @Query("SELECT new hu.okrim.productreviewappcomplete.dto.DashboardMostActiveUserDTO(u, COUNT(r)) " +
             "FROM User u JOIN ReviewHead r ON r.user.id = u.id " +
             "GROUP BY u " +

@@ -4,7 +4,7 @@ import hu.okrim.productreviewappcomplete.dto.BrandDTO;
 import hu.okrim.productreviewappcomplete.model.Brand;
 
 public class BrandMapper {
-    public static BrandDTO mapToBrandDTO (Brand brand){
+    public static BrandDTO mapToBrandDTO(Brand brand) {
         return new BrandDTO(
                 brand.getId(),
                 brand.getName(),
@@ -12,7 +12,8 @@ public class BrandMapper {
                 brand.getDescription()
         );
     }
-    public static Brand mapToBrand (BrandDTO brandDTO){
+
+    public static Brand mapToBrand(BrandDTO brandDTO) {
         return new Brand(
                 brandDTO.getId() != null ? brandDTO.getId() : null,
                 brandDTO.getName(),

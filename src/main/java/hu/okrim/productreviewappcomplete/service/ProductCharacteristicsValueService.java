@@ -11,10 +11,16 @@ import java.util.List;
 
 public interface ProductCharacteristicsValueService {
     List<ProductCharacteristicValue> findByProductId(Long id);
+
     List<ProductCharacteristicValue> findByCharacteristicId(Long id);
+
     void deleteById(Long id);
-    void save (ProductCharacteristicValue productCharacteristicValue);
+
+    void save(ProductCharacteristicValue productCharacteristicValue);
+
     List<ProductCharacteristicValue> findAll();
+
     Page<ProductCharacteristicValue> findAllBySpecification(Specification<ProductCharacteristicValue> specification, Pageable pageable);
+
     ProductCharacteristicValue findByProductAndCharacteristic(Product product, Characteristic characteristic);
 }

@@ -23,9 +23,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ReviewHeadServiceImpl implements ReviewHeadService{
+public class ReviewHeadServiceImpl implements ReviewHeadService {
     @Autowired
     ReviewHeadRepository reviewHeadRepository;
+
     @Override
     public ReviewHead findById(ReviewHeadId id) {
         return reviewHeadRepository.findById(id)

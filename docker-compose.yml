@@ -35,7 +35,7 @@ services:
       - postgres-data:/var/lib/postgresql/data
     shm_size: 256mb
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "review_user", "-d", "product_review_db"]
+      test: [ "CMD", "pg_isready", "-U", "review_user", "-d", "product_review_db" ]
       interval: 10s
       timeout: 5s
       retries: 5

@@ -9,8 +9,12 @@ import java.util.List;
 
 public interface CountryService {
     Country findByCountryCode(String countryCode);
+
     void save(Country country);
+
     void deleteByCountryCode(String countryCode);
+
     List<Country> findAll();
+
     Page<Country> findAllBySpecification(Specification<Country> specification, Pageable pageable);
 }

@@ -29,7 +29,7 @@ public class ReviewHead {
     private Product product;
     @Column(nullable = false)
     private LocalDateTime date;
-    @Column(name="overall_review", nullable = false, length = 1000)
+    @Column(name = "overall_review", nullable = false, length = 1000)
     private String description;
     @Column(nullable = false)
     private Boolean recommended;

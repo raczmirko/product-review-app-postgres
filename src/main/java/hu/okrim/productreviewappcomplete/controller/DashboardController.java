@@ -13,9 +13,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,7 +55,7 @@ public class DashboardController {
     JwtUtil tokenUtil;
 
     @GetMapping("/record-amounts")
-    public ResponseEntity<Map<String, Integer>> getRecordAmounts(){
+    public ResponseEntity<Map<String, Integer>> getRecordAmounts() {
         Map<String, Integer> returnMap = new HashMap<>();
         returnMap.put("articles", articleService.findAll().size());
         returnMap.put("aspects", aspectService.findAll().size());
@@ -69,60 +71,60 @@ public class DashboardController {
     }
 
     @GetMapping("/most-active-users")
-    public ResponseEntity<List<DashboardMostActiveUserDTO>> getMostActiveUsers(@RequestParam("userCount") Integer userCount){
-        if(userCount == 0) userCount = 3;
+    public ResponseEntity<List<DashboardMostActiveUserDTO>> getMostActiveUsers(@RequestParam("userCount") Integer userCount) {
+        if (userCount == 0) userCount = 3;
         Pageable topThree = PageRequest.of(0, userCount);
         List<DashboardMostActiveUserDTO> returnList = userService.findMostActiveUsers(topThree);
         return new ResponseEntity<>(returnList, HttpStatus.OK);
     }
 
     @GetMapping("/reviews-this-year")
-    public ResponseEntity<List<DashboardReviewByMonthDTO>> getReviewsThisYear(){
+    public ResponseEntity<List<DashboardReviewByMonthDTO>> getReviewsThisYear() {
         List<DashboardReviewByMonthDTO> returnList = reviewHeadService.findThisYearsReviewsGroupByMonth();
         return new ResponseEntity<>(returnList, HttpStatus.OK);
     }
 
     @GetMapping("/user-reviews-per-category")
-    public ResponseEntity<List<DashboardUserRatingsPerCategoryDTO>> getUserReviewsPerCategory(HttpServletRequest request){
+    public ResponseEntity<List<DashboardUserRatingsPerCategoryDTO>> getUserReviewsPerCategory(HttpServletRequest request) {
         User user = userService.findByUsername(tokenUtil.extractUserFromToken(request));
         List<DashboardUserRatingsPerCategoryDTO> returnList = reviewHeadService.findUserRatingsPerCategory(user.getId());
         return new ResponseEntity<>(returnList, HttpStatus.OK);
     }
 
     @GetMapping("/user-best-rated-products")
-    public ResponseEntity<List<DashboardUserBestRatedProductsDTO>> getUserBestRatedProducts(HttpServletRequest request){
+    public ResponseEntity<List<DashboardUserBestRatedProductsDTO>> getUserBestRatedProducts(HttpServletRequest request) {
         User user = userService.findByUsername(tokenUtil.extractUserFromToken(request));
         List<DashboardUserBestRatedProductsDTO> returnList = reviewHeadService.findUserBestRatedProducts(user.getId());
         return new ResponseEntity<>(returnList, HttpStatus.OK);
     }
 
     @GetMapping("/view-most-popular-articles-per-brand")
-    public ResponseEntity<List<MostPopularArticlesPerBrandView>> getMostPopularProductsPerBrand(){
+    public ResponseEntity<List<MostPopularArticlesPerBrandView>> getMostPopularProductsPerBrand() {
         List<MostPopularArticlesPerBrandView> returnList = mostPopularArticlesPerBrandViewService.findAll();
         return new ResponseEntity<>(returnList, HttpStatus.OK);
     }
 
     @GetMapping("/view-most-popular-articles-per-category")
-    public ResponseEntity<List<MostPopularArticlesPerCategoryView>> getMostPopularProductsPerCategory(){
+    public ResponseEntity<List<MostPopularArticlesPerCategoryView>> getMostPopularProductsPerCategory() {
         List<MostPopularArticlesPerCategoryView> returnList = mostPopularArticlesPerCategoryViewService.findAll();
         return new ResponseEntity<>(returnList, HttpStatus.OK);
     }
 
     @GetMapping("/user-domestic-product-percentage")
-    public ResponseEntity<Double> getUserDomesticProductPercentage(HttpServletRequest request){
+    public ResponseEntity<Double> getUserDomesticProductPercentage(HttpServletRequest request) {
         User user = userService.findByUsername(tokenUtil.extractUserFromToken(request));
         Double percentage = reviewHeadService.findUserDomesticProductPercentage(user.getId());
         return new ResponseEntity<>(percentage, HttpStatus.OK);
     }
 
     @GetMapping("/weak-aspects-of-popular-products")
-    public ResponseEntity<List<WeakAspectOfMostPopularProductsView>> getWeakestAspects(){
+    public ResponseEntity<List<WeakAspectOfMostPopularProductsView>> getWeakestAspects() {
         List<WeakAspectOfMostPopularProductsView> returnList = weakAspectOfMostPopularProductsViewService.findAll();
         return new ResponseEntity<>(returnList, HttpStatus.OK);
     }
 
     @GetMapping("/favourite-brand-product-distribution")
-    public ResponseEntity<List<DashboardFavBrandProdDistDTO>> getFavBrandProdDist(HttpServletRequest request){
+    public ResponseEntity<List<DashboardFavBrandProdDistDTO>> getFavBrandProdDist(HttpServletRequest request) {
         User user = userService.findByUsername(tokenUtil.extractUserFromToken(request));
         List<DashboardFavBrandProdDistDTO> resultList = reviewHeadService.findFavBrandProdDist(user.getId());
         return new ResponseEntity<>(resultList, HttpStatus.OK);

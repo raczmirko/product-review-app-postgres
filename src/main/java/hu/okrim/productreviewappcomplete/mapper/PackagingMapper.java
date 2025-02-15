@@ -4,7 +4,7 @@ import hu.okrim.productreviewappcomplete.dto.PackagingDTO;
 import hu.okrim.productreviewappcomplete.model.Packaging;
 
 public class PackagingMapper {
-    public static PackagingDTO mapToPackagingDTO (Packaging packaging){
+    public static PackagingDTO mapToPackagingDTO(Packaging packaging) {
         return new PackagingDTO(
                 packaging.getId(),
                 packaging.getName(),
@@ -14,7 +14,8 @@ public class PackagingMapper {
                 packaging.getSize()
         );
     }
-    public static Packaging mapToPackaging (PackagingDTO packagingDTO){
+
+    public static Packaging mapToPackaging(PackagingDTO packagingDTO) {
         return new Packaging(
                 packagingDTO.getId() != null ? packagingDTO.getId() : null,
                 packagingDTO.getName(),

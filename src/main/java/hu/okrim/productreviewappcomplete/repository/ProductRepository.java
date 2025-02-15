@@ -14,6 +14,7 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
     Page<Product> findAll(Specification<Product> specification, Pageable pageable);
+
     @Query("SELECT p from Product p WHERE p.article.id = :articleId")
     List<Product> findByArticleId(@Param("articleId") Long articleId);
 }

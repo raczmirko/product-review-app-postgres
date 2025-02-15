@@ -8,9 +8,13 @@ import org.springframework.data.jpa.domain.Specification;
 import java.util.List;
 
 public interface CharacteristicService {
-    List<Characteristic> findAll ();
+    List<Characteristic> findAll();
+
     Characteristic findById(Long id);
+
     void deleteById(Long id);
+
     void save(Characteristic characteristic);
+
     Page<Characteristic> findAllBySpecification(Specification<Characteristic> specification, Pageable pageable);
 }
