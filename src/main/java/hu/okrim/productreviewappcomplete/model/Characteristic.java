@@ -1,20 +1,20 @@
 package hu.okrim.productreviewappcomplete.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import hu.okrim.productreviewappcomplete.util.AuditListener;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.Set;
 
-@Setter
-@Getter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "characteristic")
+@EntityListeners(AuditListener.class)
 public class Characteristic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,20 +1,17 @@
 package hu.okrim.productreviewappcomplete.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import hu.okrim.productreviewappcomplete.util.AuditListener;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Setter
-@Getter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "role")
+@EntityListeners(AuditListener.class)
 public class Role {
     @Id
     @Column(length = 100)
