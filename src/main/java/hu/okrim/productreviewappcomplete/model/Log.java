@@ -22,15 +22,15 @@ public class Log {
     @Column(nullable = false)
     private Instant date;
 
-    @Column(nullable = false)
-    private String user;
+    @Column(nullable = false, length = 128)
+    private String userName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 6)
     private String dmlType;
 
-    @Column(nullable = false)
-    private String table;
+    @Column(nullable = false, length = 100)
+    private String tableName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 }

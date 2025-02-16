@@ -1,21 +1,21 @@
 package hu.okrim.productreviewappcomplete.model;
 
 import hu.okrim.productreviewappcomplete.model.compositeKey.ReviewHeadId;
+import hu.okrim.productreviewappcomplete.util.AuditListener;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Setter
-@Getter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "review_head")
+@EntityListeners(AuditListener.class)
 public class ReviewHead {
     @EmbeddedId
     private ReviewHeadId id;
