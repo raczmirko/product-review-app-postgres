@@ -1,0 +1,1 @@
+ALTER TABLE "user" DROP CONSTRAINT chk_user_date_is_recent;
