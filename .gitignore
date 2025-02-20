@@ -3,6 +3,7 @@ product-review-app-complete/target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 .env
+.env.test
 
 ### STS ###
 .apt_generated

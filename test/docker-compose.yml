@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  tests:
+    build:
+      context: ..
+      dockerfile: test/Dockerfile
+    container_name: backend_tests
+    env_file:
+      - .env.test
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: test
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/test_db
+      SPRING_DATASOURCE_USERNAME: review_user
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+    ports:
+      - "8080:8080"
+    networks:
+      - test-network
+
+  db:
+    image: postgres:15
+    container_name: postgres_test_db
+    restart: always
+    env_file:
+      - ..env.test
+    environment:
+      POSTGRES_DB: test_db
+      POSTGRES_USER: review_user
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "15432:5432"
+    networks:
+      - test-network
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    shm_size: 256mb
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "review_user", "-d", "test_db" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  test-network:
+
+volumes:
+  postgres-data:

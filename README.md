@@ -19,3 +19,21 @@ e.g., taste for the beverage category). Products belonging to a given category c
 part of the product reviews, based on the criteria specific to the category, as well as inherited criteria from
 higher-level categories. Product images can also be stored for each product. Each evaluation comes from an individual
 and pertains to a specific product. Every data modification is logged in the system.
+
+# Technical aspects
+
+To build this application I've use everything that I have learned during my studies, my professional life and more. This
+is my most complex project as of 2025, when this project is released.
+
+## Run the application
+
+To run the app, the underlying Docker container has to be started via the following command:
+
+```docker-compose up --build```
+
+## Tests
+
+The tests are automatically run on every pull request via the tests.yml pipeline. However, they can also be ran manually
+in a Docker container, via the following command:
+
+```docker-compose --env-file test/.env.test -f test/docker-compose.yml up --build --abort-on-container-exit```
