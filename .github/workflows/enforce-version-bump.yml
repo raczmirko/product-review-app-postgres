@@ -1,0 +1,40 @@
+name: Version Bump Check Pipeline
+
+on:
+  push:
+    branches:
+      - master  # Run only when pushing to master
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 17
+
+      # Get version number from POM
+      - name: Get Version from pom.xml
+        run: |
+          if [ -f pom.xml ]; then
+            echo "VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+          fi
+
+      # Check if Tag Already Exists
+      - name: Check if Tag Already Exists
+        id: check_tag
+        run: |
+          TAG_EXISTS=$(git ls-remote --tags origin refs/tags/v${VERSION})
+          if [ -n "$TAG_EXISTS" ]; then
+            echo "Tag v${VERSION} already exists, so the version number has not been bumped! Exiting."
+            exit 1
+          fi
