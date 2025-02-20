@@ -10,7 +10,7 @@
     </parent>
     <groupId>hu.okrim</groupId>
     <artifactId>product-review-app-complete</artifactId>
-    <version>1.2.5</version>
+    <version>1.2.6</version>
     <name>Product Review App Complete</name>
     <description>A Spring application for reviewing different products.</description>
     <properties>
