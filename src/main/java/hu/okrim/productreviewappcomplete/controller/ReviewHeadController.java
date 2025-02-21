@@ -33,7 +33,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/review-head")
+@RequestMapping("/api/review-head")
 public class ReviewHeadController {
 
     @Autowired

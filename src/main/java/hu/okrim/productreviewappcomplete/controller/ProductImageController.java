@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/product-image")
+@RequestMapping("/api/product-image")
 public class ProductImageController {
     @Autowired
     ProductImageService productImageService;
