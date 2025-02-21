@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/aspect")
+@RequestMapping("/api/aspect")
 public class AspectController {
     @Autowired
     AspectService aspectService;

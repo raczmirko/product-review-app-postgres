@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@RequestMapping("/characteristic")
+@RequestMapping("/api/characteristic")
 public class CharacteristicsController {
     @Autowired
     CharacteristicService characteristicService;

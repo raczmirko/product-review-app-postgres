@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @RestController
-@RequestMapping("/category-hierarchy")
+@RequestMapping("/api/category-hierarchy")
 public class CategoryHierarchyController {
     @Autowired
     CategoryService categoryService;
