@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("product-characteristic-value")
+@RequestMapping("/api/product-characteristic-value")
 public class ProductCharacteristicValueController {
     @Autowired
     ProductCharacteristicsValueService pcvService;

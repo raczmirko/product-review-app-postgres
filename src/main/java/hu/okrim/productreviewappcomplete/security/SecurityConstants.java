@@ -6,5 +6,5 @@ public class SecurityConstants {
     public static final int TOKEN_EXPIRATION = 1800000; // 1800000 milliseconds = 30 minutes.
     public static final String BEARER = "Bearer "; // Authorization : "Bearer " + Token
     public static final String AUTHORIZATION = "Authorization"; // "Authorization" : Bearer Token
-    public static final String REGISTER_PATH = "/user/register"; // Public path that users can use to register.
+    public static final String REGISTER_PATH = "/api/user/register"; // Public path that users can use to register.
 }
