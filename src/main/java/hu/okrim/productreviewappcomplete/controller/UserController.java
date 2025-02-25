@@ -50,7 +50,7 @@ public class UserController {
             switch (searchColumn) {
                 case "id" -> userSpecificationBuilder.withId(searchText);
                 case "username" -> userSpecificationBuilder.withUsername(searchText);
-                case "active" -> userSpecificationBuilder.withIsActive(searchText);
+                case "isActive" -> userSpecificationBuilder.withIsActive(searchText);
                 default -> {
 
                 }
@@ -63,16 +63,22 @@ public class UserController {
         }
         Specification<User> specification = userSpecificationBuilder.build();
         Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by(orderByDirection.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, orderByColumn));
-        Page<User> userPage = userService.findAllBySpecification(specification, pageable);
+        Page<User> userPage = userService.findAll(specification, pageable);
         return new ResponseEntity<>(userPage, HttpStatus.OK);
     }
 
     @PostMapping("/register")
     public ResponseEntity<HttpStatus> createUser(@Valid @RequestBody UserDTO user) {
-        user.setIsActive(true);
+        user.setIsActive(false);
         user.setRole(roleService.getUserRole());
         user.setRegistrationDate(ZonedDateTime.now());
         userService.save(UserMapper.mapToUser(user));
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{username}/activate-deactivate")
+    public ResponseEntity<HttpStatus> activateDeactivateUser(@PathVariable String username, @RequestParam boolean isActive) {
+        userService.enableDisableUser(username, isActive);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

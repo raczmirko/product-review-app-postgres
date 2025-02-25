@@ -23,5 +23,7 @@ public interface UserService {
 
     List<DashboardMostActiveUserDTO> findMostActiveUsers(Pageable pageable);
 
-    Page<User> findAllBySpecification(Specification<User> specification, Pageable pageable);
+    Page<User> findAll(Specification<User> specification, Pageable pageable);
+
+    void enableDisableUser(String username, Boolean isEnabled);
 }

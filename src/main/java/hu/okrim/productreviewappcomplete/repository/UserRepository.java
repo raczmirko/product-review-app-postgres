@@ -24,5 +24,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "ORDER BY COUNT(r) DESC")
     List<DashboardMostActiveUserDTO> findMostActiveUsers(Pageable pageable);
 
-    Page<User> findAllBySpecification(Specification<User> specification, Pageable pageable);
+    Page<User> findAll(Specification<User> specification, Pageable pageable);
 }

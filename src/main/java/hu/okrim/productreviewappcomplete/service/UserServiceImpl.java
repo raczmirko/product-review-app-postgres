@@ -66,7 +66,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<User> findAllBySpecification(Specification<User> specification, Pageable pageable) {
-        return userRepository.findAllBySpecification(specification, pageable);
+    public Page<User> findAll(Specification<User> specification, Pageable pageable) {
+        return userRepository.findAll(specification, pageable);
+    }
+
+    @Override
+    public void enableDisableUser(String username, Boolean isActive) {
+        Optional<User> user = userRepository.findByUsername(username);
+        User userEntity = unwrapUser(user, 404L);
+        userEntity.setIsActive(isActive);
+        userRepository.save(userEntity);
     }
 }

@@ -31,7 +31,7 @@ public class UserSpecificationBuilder<User> {
 
     public UserSpecificationBuilder<User> withIsActive(String isActive) {
         boolean trueOrFalse = Boolean.parseBoolean(isActive);
-        specifications.add((root, query, builder) -> builder.equal(root.get("active"), trueOrFalse));
+        specifications.add((root, query, builder) -> builder.equal(root.get("isActive"), trueOrFalse));
         return this;
     }
 
@@ -54,8 +54,8 @@ public class UserSpecificationBuilder<User> {
                 }
                 orSpecifications.add((root, query, builder) ->
                         builder.or(
-                                builder.like(root.get("name"), "%" + value + "%"),
-                                builder.equal(root.get("active"), Boolean.parseBoolean(value))
+                                builder.like(root.get("username"), "%" + value + "%"),
+                                builder.equal(root.get("isActive"), Boolean.parseBoolean(value))
                         ));
             }
             specifications.add(Specification.where(orSpecifications.stream().reduce((a, b) -> a.or(b)).orElse(null)));
