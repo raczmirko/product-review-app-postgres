@@ -1,10 +1,10 @@
 package hu.okrim.productreviewappcomplete.security;
 
+import hu.okrim.productreviewappcomplete.repository.UserRepository;
 import hu.okrim.productreviewappcomplete.security.filter.AuthenticationFilter;
 import hu.okrim.productreviewappcomplete.security.filter.ExceptionHandlerFilter;
 import hu.okrim.productreviewappcomplete.security.filter.JWTAuthorizationFilter;
 import hu.okrim.productreviewappcomplete.security.manager.CustomAuthenticationManager;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,14 +18,19 @@ import org.springframework.web.cors.CorsConfiguration;
 import java.util.List;
 
 @Configuration
-@AllArgsConstructor
 public class SecurityConfig {
+    private final CustomAuthenticationManager customAuthenticationManager;
+    private final UserRepository userRepository;
+
     @Autowired
-    CustomAuthenticationManager customAuthenticationManager;
+    public SecurityConfig(CustomAuthenticationManager customAuthenticationManager, UserRepository userRepository) {
+        this.customAuthenticationManager = customAuthenticationManager;
+        this.userRepository = userRepository;
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        AuthenticationFilter authenticationFilter = new AuthenticationFilter(customAuthenticationManager);
+        AuthenticationFilter authenticationFilter = new AuthenticationFilter(customAuthenticationManager, userRepository);
         authenticationFilter.setFilterProcessesUrl("/api/authenticate");
         http
                 .csrf(AbstractHttpConfigurer::disable)

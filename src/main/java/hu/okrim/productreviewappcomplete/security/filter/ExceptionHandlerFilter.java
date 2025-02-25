@@ -2,6 +2,7 @@ package hu.okrim.productreviewappcomplete.security.filter;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import hu.okrim.productreviewappcomplete.exception.EntityNotFoundException;
+import hu.okrim.productreviewappcomplete.exception.UserIsNotActiveException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,6 +24,10 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
         } catch (JWTVerificationException e) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             response.getWriter().write("JWT NOT VALID");
+            response.getWriter().flush();
+        } catch (UserIsNotActiveException e) {
+            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+            response.getWriter().write("INACTIVE USER");
             response.getWriter().flush();
         } catch (RuntimeException e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
