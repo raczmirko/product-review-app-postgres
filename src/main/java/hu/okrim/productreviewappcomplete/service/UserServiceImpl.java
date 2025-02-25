@@ -5,7 +5,9 @@ import hu.okrim.productreviewappcomplete.exception.EntityNotFoundException;
 import hu.okrim.productreviewappcomplete.model.User;
 import hu.okrim.productreviewappcomplete.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -61,5 +63,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<DashboardMostActiveUserDTO> findMostActiveUsers(Pageable pageable) {
         return userRepository.findMostActiveUsers(pageable);
+    }
+
+    @Override
+    public Page<User> findAll(Specification<User> specification, Pageable pageable) {
+        return userRepository.findAll(specification, pageable);
+    }
+
+    @Override
+    public void enableDisableUser(String username, Boolean isActive) {
+        Optional<User> user = userRepository.findByUsername(username);
+        User userEntity = unwrapUser(user, 404L);
+        userEntity.setIsActive(isActive);
+        userRepository.save(userEntity);
     }
 }
