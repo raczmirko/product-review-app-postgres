@@ -54,7 +54,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/review-head/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/api/security/**").hasAnyRole("USER", "ADMIN")
                         // GET methods should work for anyone
-                        .requestMatchers(HttpMethod.GET, "/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/**").hasAnyRole("USER", "ADMIN")
                         // Any other request is only accessible to admins
                         .requestMatchers("/api/**").hasRole("ADMIN")
                         .anyRequest().authenticated()

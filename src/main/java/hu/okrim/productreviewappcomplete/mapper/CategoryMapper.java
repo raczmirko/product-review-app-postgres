@@ -19,7 +19,8 @@ public class CategoryMapper {
                 categoryDTO.getId() != null ? categoryDTO.getId() : null,
                 categoryDTO.getName(),
                 categoryDTO.getParentCategory(),
-                categoryDTO.getDescription()
+                categoryDTO.getDescription(),
+                categoryDTO.getCharacteristics()
         );
     }
 }

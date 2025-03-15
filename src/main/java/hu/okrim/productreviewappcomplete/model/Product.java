@@ -3,14 +3,16 @@ package hu.okrim.productreviewappcomplete.model;
 import hu.okrim.productreviewappcomplete.util.AuditListener;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "product")
 @EntityListeners(AuditListener.class)

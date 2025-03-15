@@ -3,12 +3,14 @@ package hu.okrim.productreviewappcomplete.model;
 import hu.okrim.productreviewappcomplete.util.AuditListener;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "packaging")
 @EntityListeners(AuditListener.class)

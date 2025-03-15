@@ -3,14 +3,16 @@ package hu.okrim.productreviewappcomplete.model;
 import hu.okrim.productreviewappcomplete.util.AuditListener;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Set;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "category")
 @EntityListeners(AuditListener.class)
@@ -32,12 +34,6 @@ public class Category {
             inverseJoinColumns = @JoinColumn(name = "characteristic")
     )
     private Set<Characteristic> characteristics;
-
-    public Category(Long id, String name, Category parentCategory, String description) {
-        this.name = name;
-        this.parentCategory = parentCategory;
-        this.description = description;
-    }
 
     public Category(String name, String description) {
         this.name = name;
