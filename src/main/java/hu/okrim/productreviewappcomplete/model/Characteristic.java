@@ -4,20 +4,24 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import hu.okrim.productreviewappcomplete.util.AuditListener;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Set;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
+//@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "characteristic")
 @EntityListeners(AuditListener.class)
 public class Characteristic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @EqualsAndHashCode.Include
     private Long id;
     @Column(nullable = false, unique = true, length = 100)
     private String name;

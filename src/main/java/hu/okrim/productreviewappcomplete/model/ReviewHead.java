@@ -4,15 +4,17 @@ import hu.okrim.productreviewappcomplete.model.compositeKey.ReviewHeadId;
 import hu.okrim.productreviewappcomplete.util.AuditListener;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "review_head")
 @EntityListeners(AuditListener.class)
