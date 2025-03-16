@@ -3,7 +3,10 @@ package hu.okrim.productreviewappcomplete.model;
 import hu.okrim.productreviewappcomplete.audit.AuditListener;
 import hu.okrim.productreviewappcomplete.model.compositeKey.ReviewHeadId;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,7 +15,6 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
 @Entity
 @Table(name = "review_head")
 @EntityListeners(AuditListener.class)
@@ -61,5 +63,17 @@ public class ReviewHead {
         this.recommended = recommended;
         this.purchaseCountry = purchaseCountry;
         this.valueForPrice = valueForPrice;
+    }
+
+    @Override
+    public String toString() {
+        return "ReviewHead{" +
+                ", product=" + String.format("%s (%d)", product.getArticle().getName(), product.getId()) +
+                ", date=" + date +
+                ", description=" + description +
+                ", recommended=" + recommended +
+                ", purchaseCountry=" + String.format("%s (%s)", purchaseCountry.getName(), purchaseCountry.getCountryCode()) +
+                ", valueForPrice='" + valueForPrice + '\'' +
+                '}';
     }
 }

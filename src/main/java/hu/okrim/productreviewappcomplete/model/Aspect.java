@@ -2,13 +2,15 @@ package hu.okrim.productreviewappcomplete.model;
 
 import hu.okrim.productreviewappcomplete.audit.AuditListener;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
 @Entity
 @Table(name = "aspect")
 @EntityListeners(AuditListener.class)
@@ -26,4 +28,14 @@ public class Aspect {
     @ManyToOne
     @JoinColumn(name = "category", nullable = false)
     private Category category;
+
+    @Override
+    public String toString() {
+        return "Aspect{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", question='" + question + '\'' +
+                ", category=" + String.format("%s (id:%d)", category.getName(), category.getId()) +
+                '}';
+    }
 }

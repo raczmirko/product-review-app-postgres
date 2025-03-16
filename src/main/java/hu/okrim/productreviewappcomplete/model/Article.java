@@ -2,14 +2,16 @@ package hu.okrim.productreviewappcomplete.model;
 
 import hu.okrim.productreviewappcomplete.audit.AuditListener;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @Entity
-@ToString
 @Table(name = "article")
 @EntityListeners(AuditListener.class)
 public class Article {
@@ -30,4 +32,15 @@ public class Article {
 
     @Column(length = 1000)
     private String description;
+
+    @Override
+    public String toString() {
+        return "Article{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", brand=" + String.format("%s (id:%d)", brand.getName(), brand.getId()) +
+                ", category=" + String.format("%s (id:%d)", category.getName(), category.getId()) +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

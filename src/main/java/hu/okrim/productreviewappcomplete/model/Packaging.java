@@ -2,13 +2,15 @@ package hu.okrim.productreviewappcomplete.model;
 
 import hu.okrim.productreviewappcomplete.audit.AuditListener;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
 @Entity
 @Table(name = "packaging")
 @EntityListeners(AuditListener.class)
@@ -31,4 +33,15 @@ public class Packaging {
 
     @Column(length = 100)
     private String size;
+
+    @Override
+    public String toString() {
+        return "Packaging{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", amount='" + amount + '\'' +
+                ", unitOfMeasure=" + String.format("%s (%s)", unitOfMeasureName, unitOfMeasure) +
+                ", size='" + size + '\'' +
+                '}';
+    }
 }
