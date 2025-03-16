@@ -18,19 +18,25 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
     private Long id;
+
     @Column(nullable = false, unique = true, length = 100)
     private String username;
+
     @JsonIgnore
     @Column(nullable = false, length = 1000)
     private String password;
+
     @ManyToOne
     @JoinColumn(name = "country", nullable = false)
     private Country country;
+
     @Column(name = "registered", nullable = false)
     private ZonedDateTime registrationDate;
+
     @ManyToOne
     @JoinColumn(name = "role", nullable = false)
     private Role role;
+
     @Column(name = "active", nullable = false)
     private Boolean isActive;
 
