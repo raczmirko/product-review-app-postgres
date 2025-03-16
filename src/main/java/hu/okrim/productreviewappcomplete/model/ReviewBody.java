@@ -2,20 +2,16 @@ package hu.okrim.productreviewappcomplete.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import hu.okrim.productreviewappcomplete.model.compositeKey.ReviewBodyId;
-import hu.okrim.productreviewappcomplete.util.AuditListener;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 @Entity
 @Table(name = "review_body")
-@EntityListeners(AuditListener.class)
 public class ReviewBody {
     @EmbeddedId
     private ReviewBodyId id;
