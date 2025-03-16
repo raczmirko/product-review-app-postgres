@@ -3,7 +3,10 @@ package hu.okrim.productreviewappcomplete.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import hu.okrim.productreviewappcomplete.audit.AuditListener;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Set;
 
@@ -11,7 +14,6 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
 @Entity
 @Table(name = "characteristic")
 @EntityListeners(AuditListener.class)
@@ -37,4 +39,15 @@ public class Characteristic {
     @JsonIgnore
     @ManyToMany(mappedBy = "characteristics")
     private Set<Category> categories;
+
+    @Override
+    public String toString() {
+        return "Characteristic{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", unitOfMeasure=" + String.format("%s (%s)", unitOfMeasureName, unitOfMeasure) +
+                ", description='" + description + '\'' +
+                ", categories=" + categories.stream().map(Category::getName) +
+                '}';
+    }
 }

@@ -2,7 +2,10 @@ package hu.okrim.productreviewappcomplete.model;
 
 import hu.okrim.productreviewappcomplete.audit.AuditListener;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Set;
 
@@ -10,7 +13,6 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
 @Entity
 @Table(name = "category")
 @EntityListeners(AuditListener.class)
@@ -40,5 +42,16 @@ public class Category {
     public Category(String name, String description) {
         this.name = name;
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", parentCategory=" + String.format("%s (id:%d)", parentCategory.getName(), parentCategory.getId()) +
+                ", description='" + description + '\'' +
+                ", characteristics=" + characteristics.stream().map(Characteristic::getName) +
+                '}';
     }
 }
