@@ -1,6 +1,7 @@
 package hu.okrim.productreviewappcomplete.model;
 
 import hu.okrim.productreviewappcomplete.audit.AuditListener;
+import hu.okrim.productreviewappcomplete.util.ToStringHelper;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -49,9 +50,11 @@ public class Category {
         return "Category{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", parentCategory=" + String.format("%s (id:%d)", parentCategory.getName(), parentCategory.getId()) +
-                ", description='" + description + '\'' +
-                ", characteristics=" + characteristics.stream().map(Characteristic::getName) +
+                ", parentCategory=" + ToStringHelper.safeFormat("%s (id:%s)",
+                (parentCategory != null ? parentCategory.getName() : null),
+                (parentCategory != null ? parentCategory.getId() : null)) +
+                ", description='" + ToStringHelper.safe(description) + '\'' +
+                ", characteristics=" + ToStringHelper.safeCollection(characteristics, Characteristic::getName) +
                 '}';
     }
 }

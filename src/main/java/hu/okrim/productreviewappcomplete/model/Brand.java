@@ -1,6 +1,7 @@
 package hu.okrim.productreviewappcomplete.model;
 
 import hu.okrim.productreviewappcomplete.audit.AuditListener;
+import hu.okrim.productreviewappcomplete.util.ToStringHelper;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,7 +36,7 @@ public class Brand {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", countryOfOrigin=" + String.format("%s (id:%s)", countryOfOrigin.getName(), countryOfOrigin.getCountryCode()) +
-                ", description='" + description + '\'' +
+                ", description='" + ToStringHelper.safe(description) + '\'' +
                 '}';
     }
 }

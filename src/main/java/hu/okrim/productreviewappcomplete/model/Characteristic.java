@@ -2,6 +2,7 @@ package hu.okrim.productreviewappcomplete.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import hu.okrim.productreviewappcomplete.audit.AuditListener;
+import hu.okrim.productreviewappcomplete.util.ToStringHelper;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -45,9 +46,9 @@ public class Characteristic {
         return "Characteristic{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", unitOfMeasure=" + String.format("%s (%s)", unitOfMeasureName, unitOfMeasure) +
-                ", description='" + description + '\'' +
-                ", categories=" + categories.stream().map(Category::getName) +
+                ", unitOfMeasure=" + ToStringHelper.safeFormat("%s (%s)", unitOfMeasureName, unitOfMeasure) +
+                ", description='" + ToStringHelper.safe(description) + '\'' +
+                ", categories=" + ToStringHelper.safeCollection(categories, Category::getName) +
                 '}';
     }
 }
