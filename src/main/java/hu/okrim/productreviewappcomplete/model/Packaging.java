@@ -1,6 +1,7 @@
 package hu.okrim.productreviewappcomplete.model;
 
 import hu.okrim.productreviewappcomplete.audit.AuditListener;
+import hu.okrim.productreviewappcomplete.util.ToStringHelper;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -40,8 +41,8 @@ public class Packaging {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", amount='" + amount + '\'' +
-                ", unitOfMeasure=" + String.format("%s (%s)", unitOfMeasureName, unitOfMeasure) +
-                ", size='" + size + '\'' +
+                ", unitOfMeasure=" + ToStringHelper.safeFormat("%s (%s)", unitOfMeasureName, unitOfMeasure) +
+                ", size='" + ToStringHelper.safe(size) + '\'' +
                 '}';
     }
 }

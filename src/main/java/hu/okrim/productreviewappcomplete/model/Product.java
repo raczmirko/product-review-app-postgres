@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -41,7 +42,13 @@ public class Product {
                 "id=" + id +
                 ", article=" + String.format("%s (id:%d)", article.getName(), article.getId()) +
                 ", packaging=" + String.format("%s (id:%d)", packaging.getName(), packaging.getId()) +
-                ", productCharacteristicValues=[" + productCharacteristicValues.stream().map(val -> String.format("%s-%s ", val.getCharacteristic().getName(), val.getValue())) + "]" +
+                ", productCharacteristicValues=[" +
+                (productCharacteristicValues == null ? "null" :
+                        productCharacteristicValues.stream()
+                                .map(val -> String.format("%s-%s", val.getCharacteristic().getName(), val.getValue()))
+                                .collect(Collectors.joining(", "))
+                ) +
+                "]" +
                 '}';
     }
 }

@@ -1,6 +1,7 @@
 package hu.okrim.productreviewappcomplete.model;
 
 import hu.okrim.productreviewappcomplete.audit.AuditListener;
+import hu.okrim.productreviewappcomplete.util.ToStringHelper;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -40,7 +41,7 @@ public class Article {
                 ", name='" + name + '\'' +
                 ", brand=" + String.format("%s (id:%d)", brand.getName(), brand.getId()) +
                 ", category=" + String.format("%s (id:%d)", category.getName(), category.getId()) +
-                ", description='" + description + '\'' +
+                ", description='" + ToStringHelper.safe(description) + '\'' +
                 '}';
     }
 }
