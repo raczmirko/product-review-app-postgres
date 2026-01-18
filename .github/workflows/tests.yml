@@ -38,10 +38,10 @@ jobs:
 
       - name: Set up Database Environment Variables
         run: |
-          echo "SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/product_review_db" >> $GITHUB_ENV
+          echo "SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/product_review_db" >> $GITHUB_ENV
           echo "SPRING_DATASOURCE_USERNAME=review_user" >> $GITHUB_ENV
           echo "SPRING_DATASOURCE_PASSWORD=ci_pass" >> $GITHUB_ENV
-          echo "SPRING_FLYWAY_URL=jdbc:postgresql://postgres:5432/product_review_db" >> $GITHUB_ENV
+          echo "SPRING_FLYWAY_URL=jdbc:postgresql://localhost:5432/product_review_db" >> $GITHUB_ENV
           echo "SPRING_FLYWAY_USER=review_user" >> $GITHUB_ENV
           echo "SPRING_FLYWAY_PASSWORD=ci_pass" >> $GITHUB_ENV
 
