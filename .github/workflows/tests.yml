@@ -16,7 +16,7 @@ jobs:
         env:
           POSTGRES_DB: product_review_db
           POSTGRES_USER: review_user
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_PASSWORD: ci_pass
         ports:
           - 5432:5432
         options: >-
@@ -40,10 +40,10 @@ jobs:
         run: |
           echo "SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/product_review_db" >> $GITHUB_ENV
           echo "SPRING_DATASOURCE_USERNAME=review_user" >> $GITHUB_ENV
-          echo "SPRING_DATASOURCE_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> $GITHUB_ENV
+          echo "SPRING_DATASOURCE_PASSWORD=ci_pass" >> $GITHUB_ENV
           echo "SPRING_FLYWAY_URL=jdbc:postgresql://localhost:5432/product_review_db" >> $GITHUB_ENV
           echo "SPRING_FLYWAY_USER=review_user" >> $GITHUB_ENV
-          echo "SPRING_FLYWAY_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> $GITHUB_ENV
+          echo "SPRING_FLYWAY_PASSWORD=ci_pass" >> $GITHUB_ENV
 
       - name: Run Tests
         run: mvn -B test --file pom.xml

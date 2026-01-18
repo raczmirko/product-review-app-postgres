@@ -20,7 +20,7 @@ jobs:
         env:
           POSTGRES_DB: product_review_db
           POSTGRES_USER: review_user
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_PASSWORD: ci_pass
         ports:
           - 5432:5432
         options: >-
@@ -43,12 +43,12 @@ jobs:
       - name: Build with Maven
         run: mvn -B clean package -DskipTests
         env:
-          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/product_review_db
+          SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/product_review_db
           SPRING_DATASOURCE_USERNAME: review_user
-          SPRING_DATASOURCE_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          SPRING_FLYWAY_URL: jdbc:postgresql://localhost:5432/product_review_db
+          SPRING_DATASOURCE_PASSWORD: ci_pass
+          SPRING_FLYWAY_URL: jdbc:postgresql://postgres:5432/product_review_db
           SPRING_FLYWAY_USER: review_user
-          SPRING_FLYWAY_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          SPRING_FLYWAY_PASSWORD: ci_pass
 
       - name: Update dependency graph
         uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
